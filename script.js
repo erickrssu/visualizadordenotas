@@ -2,13 +2,22 @@ const btn_importar = document.getElementById("importar_xml")
 const inputXML = document.getElementById("input_xml")
 
 btn_importar.addEventListener("click",() =>{inputXML.click();});
-
 inputXML.addEventListener("change",() =>{
     const arquivos = inputXML.files;
 limparTabela();
     for(const arquivo of arquivos){
         lerXML(arquivo)
     }
+});
+
+const links = document.querySelectorAll("#navbar a");
+
+links.forEach(link => {
+    link.addEventListener("click", () => {
+        links.forEach(l => l.classList.remove("ativo"));
+        link.classList.add("ativo");
+        
+    });
 });
 
 function lerXML(arquivo) {
@@ -24,6 +33,7 @@ function lerXML(arquivo) {
 
     reader.readAsText(arquivo);
 }
+
 function extrairDados(xml, nomeArquivo) {
     let dataTratar = xml.querySelector("dhEmi")?.textContent || xml.querySelector("dEmi")?.textContent || "";
     if(dataTratar != ""){
@@ -65,7 +75,6 @@ function adicionarNaTabela(d) {
     const tbody = document.querySelector("#tabela_xml tbody");
 
     const tr = document.createElement("tr");
-    
     tr.innerHTML = `
         <td class="arq">${d.arquivo}</td>
         <td>${d.chave}</td>

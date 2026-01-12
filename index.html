@@ -28,20 +28,39 @@
 
             <section id="importar">
                 
-            <div class="fundo">
-                <i class="fa-solid fa-file-import" style="font-size: 62px;"></i>
-                <h2 id="title_xml">Importação de XML</h2>
-                <button id="importar_xml">
-                    <span style="
-                    font-size: 30px;
-                    color: white;">+</span>Importar</button>
-                </button>
+                <div class="fundo">
+                    <i class="fa-solid fa-file-import" style="font-size: 62px;"></i>
+                    <h2 id="title_xml">Importação de XML</h2>
+                    <button id="importar_xml">
+                        <span style="
+                        font-size: 30px;
+                        color: white;">+</span>Importar</button>
+                    </button>
 
-                <input type="file" id="input_xml" accept=".xml" multiple hidden>
+                    <input type="file" id="input_xml" accept=".xml" multiple hidden>
                 
-            </div>
+                </div>
             </section>
+            <header id="exibir_notas">
+                <nav id="navbar">
+                    <ul id="nav_impostos">
+                        <li class="nav_imposto">
+                            <input type="checkbox"/>
+                            <label>ICMS</label>
+                        </li>
+                        <li class="nav_imposto">
+                            <input type="checkbox"/>
+                            <label>PIS</label>
+                        </li>
+                        <li class="nav_imposto">
+                            <input type="checkbox"/>
+                            <label>COFINS</label>
+                        </li>
+                    </ul>
+                </nav>
+            </header>
             <section id="notas">
+
                 <table id="tabela_xml">
                     <thead>
                         <tr>
