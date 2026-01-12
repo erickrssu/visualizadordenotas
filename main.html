@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="PT-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <nav id="navbar">
+            <ul id="nav_list">
+                <li class="nav_item">
+                    <a href="#importar">Notas</a>
+                </li>
+                <li class="nav_item">
+                    <a href="#itens">Itens</a>
+                </li>
+                <li class="nav_item">
+                    <a href="#desdobrados">Desdobramentos</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main id="content">
+        <div class="container">
+
+            <section id="importar">
+                
+            <div class="fundo">
+                <i class="fa-solid fa-file-import" style="font-size: 62px;"></i>
+                <h2 id="title_xml">Importação de XML</h2>
+                <button id="importar_xml">
+                    <span style="
+                    font-size: 30px;
+                    color: white;">+</span>Importar</button>
+                </button>
+
+                <input type="file" id="input_xml" accept=".xml" multiple hidden>
+                
+            </div>
+            </section>
+            <section id="notas">
+                <table id="tabela_xml">
+                    <thead>
+                        <tr>
+                            <th>Arquivo</th>
+                            <th>Número</th>
+                            <th>Emitente</th>
+                            <th>Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+
+            <section id="itens">
+            
+            </section>
+            <section id="desdobramentos">
+
+            </section>
+
+        </div>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
