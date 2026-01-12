@@ -5,7 +5,7 @@ btn_importar.addEventListener("click",() =>{inputXML.click();});
 
 inputXML.addEventListener("change",() =>{
     const arquivos = inputXML.files;
-
+limparTabela();
     for(const arquivo of arquivos){
         lerXML(arquivo)
     }
@@ -25,69 +25,59 @@ function lerXML(arquivo) {
     reader.readAsText(arquivo);
 }
 function extrairDados(xml, nomeArquivo) {
-
+    let dataTratar = xml.querySelector("dhEmi")?.textContent || xml.querySelector("dEmi")?.textContent || "";
+    if(dataTratar != ""){
+        dataTratar = dataTratar.substring(0,10);
+        dataTratar = dataTratar.replace(/-/g,"/");
+    }
+    
     const dados = {
         arquivo: nomeArquivo,
 
         // Dados principais
         chave: xml.querySelector("chNFe")?.textContent || "",
         numero: xml.querySelector("nNF")?.textContent || "",
-        data: xml.querySelector("dhEmi")?.textContent 
-              || xml.querySelector("dEmi")?.textContent || "",
+        data: dataTratar,
         emitente: xml.querySelector("emit > xNome")?.textContent || "",
         uf: xml.querySelector("emit > enderEmit > UF")?.textContent || "",
         valor: xml.querySelector("vNF")?.textContent || "0",
 
-        // ICMS (pega o primeiro item – depois dá pra somar)
-        cst_icms: xml.querySelector("ICMS [CST], ICMS [CSOSN]")?.textContent || "",
-        aliq_icms: xml.querySelector("pICMS")?.textContent || "",
         bs_icms: xml.querySelector("vBC")?.textContent || "0",
         v_icms: xml.querySelector("vICMS")?.textContent || "0",
 
-        // PIS
-        cst_pis: xml.querySelector("PIS [CST]")?.textContent || "",
-        aliq_pis: xml.querySelector("pPIS")?.textContent || "",
         v_pis: xml.querySelector("vPIS")?.textContent || "0",
 
-        // COFINS
-        cst_cofins: xml.querySelector("COFINS [CST]")?.textContent || "",
-        aliq_cofins: xml.querySelector("pCOFINS")?.textContent || "",
         v_cofins: xml.querySelector("vCOFINS")?.textContent || "0",
 
-        // Outros valores
         desconto: xml.querySelector("vDesc")?.textContent || "0",
         outras: xml.querySelector("vOutro")?.textContent || "0",
         frete: xml.querySelector("vFrete")?.textContent || "0"
     };
     adicionarNaTabela(dados);
 }
+function limparTabela(){
+    const tbody = document.querySelector("#tabela_xml tbody");
+    while(tbody.firstChild){
+        tbody.removeChild(tbody.firstChild)
+    }
+}
 function adicionarNaTabela(d) {
     const tbody = document.querySelector("#tabela_xml tbody");
 
     const tr = document.createElement("tr");
-
+    
     tr.innerHTML = `
-        <td>${d.arquivo}</td>
+        <td class="arq">${d.arquivo}</td>
         <td>${d.chave}</td>
         <td>${d.numero}</td>
         <td>${d.data}</td>
         <td>${d.emitente}</td>
         <td>${d.uf}</td>
         <td>R$ ${Number(d.valor).toFixed(2)}</td>
-
-        <td>${d.cst_icms}</td>
-        <td>${d.aliq_icms}</td>
         <td>R$ ${Number(d.bs_icms).toFixed(2)}</td>
         <td>R$ ${Number(d.v_icms).toFixed(2)}</td>
-
-        <td>${d.cst_pis}</td>
-        <td>${d.aliq_pis}</td>
         <td>R$ ${Number(d.v_pis).toFixed(2)}</td>
-
-        <td>${d.cst_cofins}</td>
-        <td>${d.aliq_cofins}</td>
         <td>R$ ${Number(d.v_cofins).toFixed(2)}</td>
-
         <td>R$ ${Number(d.desconto).toFixed(2)}</td>
         <td>R$ ${Number(d.outras).toFixed(2)}</td>
         <td>R$ ${Number(d.frete).toFixed(2)}</td>

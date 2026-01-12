@@ -26,14 +26,46 @@ header{
     align-items: center;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
-th,td{
-    padding: 15px;
-    font-size: 14px;
+.arq{
+    display: none;
 }
-#tabela_xml{
-    
+#tabela_xml {
+    width: 100%;
+    table-layout: auto;
+    border-collapse: separate; 
+    border-spacing: 0 10px; 
+    padding: 0 30px;
+}
 
+tr {
+    /* O background no TR funciona quando o collapse é separate */
+    background-color: rgb(224, 237, 255);
+    box-shadow: 0px 5px 2px 0px rgba(0,0,0,0.1)
 }
+
+th, td {
+    padding: 14px 5px;
+    font-size: 13px;
+    text-align: center;
+    white-space: nowrap; 
+}
+
+th {
+    background-color: transparent;
+    font-weight: 600;
+    color: #555;
+}
+
+td:nth-child(2),th:nth-child(2) {
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+
+td:last-child,th:last-child {
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
 #title_xml{
     color: #333333;
 }
