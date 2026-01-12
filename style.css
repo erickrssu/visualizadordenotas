@@ -9,6 +9,7 @@
 
 body{
     background-color: #F4F6F9;
+    overflow-x: hidden;
 }
 
 header{
@@ -128,8 +129,14 @@ td:last-child,th:last-child {
     transition: all 0.1s ease;
 }
 .nav_imposto{
-    width: 80px;
+    width: auto;
     color: #FFFFFF;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+label{
+    margin-left: 10px;
 }
 
 .ativo{
