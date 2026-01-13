@@ -13,9 +13,12 @@ body{
 }
 
 header{
-   width: 100%;
-   padding: 15px 75%;
-   background-color: #1E88E5;
+    display: flex;
+    align-items: center;      /* alinha verticalmente */
+    gap: 20px;                /* espaço entre os elementos */
+    width: 100%;
+    padding: 15px 10%;
+    background-color: #1E88E5;
 }
 .chk_impostos{
     color: white;
@@ -30,7 +33,7 @@ header{
     background-color: #1E88E5;
 }
 #chave{
-    height: 40px;
+    height: 30px;
     width: 300px;
     resize: none;
     border-radius: 20px;
@@ -41,12 +44,47 @@ header{
 }
 .fundo{
     background-color: #FFFFFF;
-    padding: 50px 10%;
+    padding: 50px 20%;
     border-radius: 12px;
     display: flex;
-    gap: 20px;
     align-items: center;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+.importados, .cancelados, .interestadual{
+    background-color: #ebebeb;
+    display: inline-flex;
+    align-items: center;
+    width: 120px;
+    height: 120px;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+.valores{
+    background-color: #FFFFFF;
+    display: inline-flex;
+    align-items: center;
+    width: 170px;
+    height: 170px;
+    border-radius: 8px;
+}
+.log{
+    background-color: #FFFFFF;
+    padding: 20px 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    margin-top: 30px;
+    margin-bottom: -50px;
+}
+
+#importar{
+    padding: 80px 35%;
+    background-color: #E3F2FD;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 .arq{
     display: none;
@@ -112,9 +150,7 @@ td:last-child,th:last-child {
 #itens{
     display: none;
 }
-.visivel{
- 
-}
+
 #importar_xml{
     padding: 10px 40px;
     border-radius: 8px;
@@ -129,14 +165,6 @@ td:last-child,th:last-child {
 #importar_xml:hover{
     transform: translateY(-5px);
     background-color: #1565C0;
-}
-
-#importar{
-    padding: 80px 35%;
-    background-color: #E3F2FD;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 #navbar{
@@ -172,7 +200,7 @@ label{
 
 
 #nav_list{
-    display: flex;
+    display: inline-flex;
     list-style: none;
     gap: 4vw;
 }
