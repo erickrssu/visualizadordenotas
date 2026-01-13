@@ -22,12 +22,23 @@ header{
 }
 #exibir_notas{
     display: flex;
+    align-items: center;      /* alinha verticalmente */
+    gap: 20px;                /* espaço entre os elementos */
     width: 100%;
-    padding: 15px 70%;
+    padding: 15px 10%;
     height: 70px;
     background-color: #1E88E5;
 }
-
+#chave{
+    height: 40px;
+    width: 300px;
+    resize: none;
+    border-radius: 20px;
+    border-color: transparent;
+    text-align: center;
+    line-height: 40px;
+    overflow: hidden;
+}
 .fundo{
     background-color: #FFFFFF;
     padding: 50px 10%;
@@ -46,13 +57,21 @@ header{
     border-collapse: separate; 
     border-spacing: 0 10px; 
     padding: 0 150px;
+    
+}
+#tabela_itens {
+    width: 100%;
+    table-layout: auto;
+    border-collapse: separate; 
+    border-spacing: 0 10px; 
+    padding: 0 150px;
+    
 }
 
 tr {
     /* O background no TR funciona quando o collapse é separate */
     background-color: rgb(224, 237, 255);
-    box-shadow: 0px 5px 2px 0px rgba(0,0,0,0.1)
-    
+    box-shadow: 0px 5px 2px 0px rgba(0,0,0,0.1);
 }
 tr:hover td {
   transform: translateY(-5px); /* Move a linha 20px para a direita */
@@ -70,7 +89,8 @@ th, td {
 th {
     background-color: transparent;
     font-weight: 600;
-    color: #555;
+    color: #3f3f3f;
+    font-size: 0.8vw;
 }
 
 td:nth-child(2),th:nth-child(2) {
@@ -86,7 +106,15 @@ td:last-child,th:last-child {
 #title_xml{
     color: #333333;
 }
-
+#notas{
+    display: none;
+}
+#itens{
+    display: none;
+}
+.visivel{
+ 
+}
 #importar_xml{
     padding: 10px 40px;
     border-radius: 8px;
@@ -112,10 +140,7 @@ td:last-child,th:last-child {
 }
 
 #navbar{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    margin-left: auto;
 }
 #nav_impostos{
     display: inline-flex;

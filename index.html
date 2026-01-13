@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <title>Visualizador de XML</title>
 </head>
 <body>
     <header>
@@ -42,6 +42,7 @@
                 </div>
             </section>
             <header id="exibir_notas">
+                <textarea id="chave"></textarea>
                 <nav id="navbar">
                     <ul id="nav_impostos">
                         <li class="nav_imposto">
@@ -60,7 +61,6 @@
                 </nav>
             </header>
             <section id="notas">
-
                 <table id="tabela_xml">
                     <thead>
                         <tr>
@@ -83,9 +83,34 @@
                     <tbody></tbody>
                 </table>
             </section>
-
             <section id="itens">
-            
+                <table id="tabela_itens">
+                    <thead>
+                        <tr>
+                            <th class="arq">Arquivo</th>
+                            <th>Codigo</th>
+                            <th>Descrição</th>
+                            <th>NCM</th>
+                            <th>Valor do produto</th>
+                            <th>CFOP</th>
+                            <th class="icms">CST</th>
+                            <th class="icms">Aliquota</th>
+                            <th class="icms">Base ICMS</th>
+                            <th class="icms">Valor ICMS</th>
+                            <th class="pis">CST</th>
+                            <th class="pis">Aliquota</th>
+                            <th class="pis">Base PIS</th>
+                            <th class="pis">Valor PIS</th>
+                            <th class="cofins">CST</th>
+                            <th class="cofins">Aliquota</th>
+                            <th class="cofins">Base COFINS</th>
+                            <th class="cofins">Valor COFINS</th>
+                            <th>Desconto</th>
+                            <th>Outras</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
             </section>
             <section id="desdobramentos">
 
