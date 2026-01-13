@@ -1,0 +1,236 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+*{
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+    background-color: #F4F6F9;
+    overflow-x: hidden;
+}
+
+header{
+   width: 100%;
+   padding: 15px 75%;
+   background-color: #1E88E5;
+}
+.chk_impostos{
+    color: white;
+}
+#exibir_notas{
+    display: flex;
+    align-items: center;      /* alinha verticalmente */
+    gap: 20px;                /* espaço entre os elementos */
+    width: 100%;
+    padding: 15px 10%;
+    height: 70px;
+    background-color: #1E88E5;
+}
+#chave{
+    height: 40px;
+    width: 300px;
+    resize: none;
+    border-radius: 20px;
+    border-color: transparent;
+    text-align: center;
+    line-height: 40px;
+    overflow: hidden;
+}
+.fundo{
+    background-color: #FFFFFF;
+    padding: 50px 10%;
+    border-radius: 12px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+.arq{
+    display: none;
+}
+#tabela_xml {
+    width: 100%;
+    table-layout: auto;
+    border-collapse: separate; 
+    border-spacing: 0 10px; 
+    padding: 0 150px;
+    
+}
+#tabela_itens {
+    width: 100%;
+    table-layout: auto;
+    border-collapse: separate; 
+    border-spacing: 0 10px; 
+    padding: 0 150px;
+    
+}
+
+tr {
+    /* O background no TR funciona quando o collapse é separate */
+    background-color: rgb(224, 237, 255);
+    box-shadow: 0px 5px 2px 0px rgba(0,0,0,0.1);
+}
+tr:hover td {
+  transform: translateY(-5px); /* Move a linha 20px para a direita */
+  transition: transform 0.5s ease;
+  background-color: rgb(202, 224, 255); /* Opcional: destaque visual */
+}
+
+th, td {
+    padding: 14px 5px;
+    font-size: 0.7vw;
+    text-align: center;
+    white-space: nowrap; 
+}
+
+th {
+    background-color: transparent;
+    font-weight: 600;
+    color: #3f3f3f;
+    font-size: 0.8vw;
+}
+
+td:nth-child(2),th:nth-child(2) {
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+
+td:last-child,th:last-child {
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+#title_xml{
+    color: #333333;
+}
+#notas{
+    display: none;
+}
+#itens{
+    display: none;
+}
+.visivel{
+ 
+}
+#importar_xml{
+    padding: 10px 40px;
+    border-radius: 8px;
+    border-color: transparent;
+    background-color: #1E88E5;
+    font-size: 20px;
+    color: #FFFFFF;
+    transition: all 0.4s ease;
+    align-items: center;
+}
+
+#importar_xml:hover{
+    transform: translateY(-5px);
+    background-color: #1565C0;
+}
+
+#importar{
+    padding: 80px 35%;
+    background-color: #E3F2FD;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#navbar{
+    margin-left: auto;
+}
+#nav_impostos{
+    display: inline-flex;
+    list-style: none;
+    gap: 4vw;
+}
+.nav_item a{
+    text-decoration: none;
+    font-weight: 600;
+    color: #FFFFFF;
+    transition: all 0.1s ease;
+}
+.nav_imposto{
+    width: auto;
+    color: #FFFFFF;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+label{
+    margin-left: 10px;
+}
+
+.ativo{
+    color: #E3F2FD;
+    border-bottom: 6px solid #FFFFFF;
+    border-radius: 3px;
+}
+
+
+#nav_list{
+    display: flex;
+    list-style: none;
+    gap: 4vw;
+}
+
+/*styel check box*/
+input[type="checkbox"] {
+  appearance: none;
+  position: relative;
+  /* Tamanho */
+  width: 1.125rem;
+  height: 1.125rem;
+  /* Cor do fundo e borda */
+  background-color: #fff;
+  border: 0.125rem solid transparent;
+  border-radius: 10px;
+}
+
+/* Características do marcador */
+input[type="checkbox"]::before {
+  content: "";
+  /* Posicionar no meio */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* Tamanho do marcador */
+  width: 0.75rem;
+  height: 0.75rem;
+  /* Formato do marcador */
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+  /* Posicionar no meio */
+  transform: translate(-50%, -50%) scale(0);
+  transform-origin: center;
+  transition: 0.3s transform ease-in-out;
+  /* Cor do marcador */
+  box-shadow: inset 1rem 1rem #fff;
+}
+
+/* Cor da caixa para o marcador */
+input[type="checkbox"]:checked {
+  background-color: #1E88E5;
+  border-color: #1E88E5;
+}
+.pis, .cofins, .icms{
+    display: none;
+}
+.pis _visivel, .cofins _visivel, .icms _visivel{
+ display: table-cell;
+}
+/* Características do marcador quando selecionado */
+input[type="checkbox"]:checked::before {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Características do marcador quando selecionado */
+input[type="checkbox"]:disabled {
+  opacity: 0.25;
+}
+
+input[type="checkbox"]:focus {
+  border-color: #1E88E5;
+}

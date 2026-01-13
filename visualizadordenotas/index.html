@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="PT-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+    <title>Visualizador de XML</title>
+</head>
+<body>
+    <header>
+        <nav id="navbar">
+            <ul id="nav_list">
+                <li class="nav_item">
+                    <a href="#importar">Notas</a>
+                </li>
+                <li class="nav_item">
+                    <a href="#itens">Itens</a>
+                </li>
+                <li class="nav_item">
+                    <a href="#desdobrados">Desdobramentos</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main id="content">
+        <div class="container">
+
+            <section id="importar">
+                
+                <div class="fundo">
+                    <i class="fa-solid fa-file-import" style="font-size: 62px;"></i>
+                    <h2 id="title_xml">Importação de XML</h2>
+                    <button id="importar_xml">
+                        <span style="
+                        font-size: 30px;
+                        color: white;">+</span>Importar</button>
+                    </button>
+
+                    <input type="file" id="input_xml" accept=".xml" multiple hidden>
+                
+                </div>
+            </section>
+            <header id="exibir_notas">
+                <textarea id="chave"></textarea>
+                <nav id="navbar">
+                    <ul id="nav_impostos">
+                        <li class="nav_imposto">
+                            <input type="checkbox" value="icms" class="imposto"/>
+                            <label>ICMS</label>
+                        </li>
+                        <li class="nav_imposto">
+                            <input type="checkbox" value="pis" class="imposto"/>
+                            <label>PIS</label>
+                        </li>
+                        <li class="nav_imposto">
+                            <input type="checkbox" value="cofins" class="imposto"/>
+                            <label>COFINS</label>
+                        </li>
+                    </ul>
+                </nav>
+            </header>
+            <section id="notas">
+                <table id="tabela_xml">
+                    <thead>
+                        <tr>
+                            <th class="arq">Arquivo</th>
+                            <th>Chave de acesso</th>
+                            <th>Número</th>
+                            <th>Data</th>
+                            <th>Emitente</th>
+                            <th>UF</th>
+                            <th>Valor</th>
+                            <th class="icms">Base ICMS</th>
+                            <th class="icms">Valor ICMS</th>
+                            <th class="pis">Valor PIS</th>
+                            <th class="cofins">Valor COFINS</th>
+                            <th>Desconto</th>
+                            <th>Outras</th>
+                            <th>Frete</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+            <section id="itens">
+                <table id="tabela_itens">
+                    <thead>
+                        <tr>
+                            <th class="arq">Arquivo</th>
+                            <th>Codigo</th>
+                            <th>Descrição</th>
+                            <th>NCM</th>
+                            <th>Valor do produto</th>
+                            <th>CFOP</th>
+                            <th class="icms">CST</th>
+                            <th class="icms">Aliquota</th>
+                            <th class="icms">Base ICMS</th>
+                            <th class="icms">Valor ICMS</th>
+                            <th class="pis">CST</th>
+                            <th class="pis">Aliquota</th>
+                            <th class="pis">Base PIS</th>
+                            <th class="pis">Valor PIS</th>
+                            <th class="cofins">CST</th>
+                            <th class="cofins">Aliquota</th>
+                            <th class="cofins">Base COFINS</th>
+                            <th class="cofins">Valor COFINS</th>
+                            <th>Desconto</th>
+                            <th>Outras</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+            <section id="desdobramentos">
+
+            </section>
+
+        </div>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
