@@ -45,7 +45,7 @@ header{
     table-layout: auto;
     border-collapse: separate; 
     border-spacing: 0 10px; 
-    padding: 0 30px;
+    padding: 0 150px;
 }
 
 tr {
@@ -190,7 +190,12 @@ input[type="checkbox"]:checked {
   background-color: #1E88E5;
   border-color: #1E88E5;
 }
-
+.pis, .cofins, .icms{
+    display: none;
+}
+.pis _visivel, .cofins _visivel, .icms _visivel{
+ display: table-cell;
+}
 /* Características do marcador quando selecionado */
 input[type="checkbox"]:checked::before {
   transform: translate(-50%, -50%) scale(1);

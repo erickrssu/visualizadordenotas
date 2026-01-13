@@ -20,6 +20,52 @@ links.forEach(link => {
     });
 });
 
+const checkboxes = document.querySelectorAll('.imposto');
+
+checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+        // 1. Seleção Única
+        if (this.checked) {
+            checkboxes.forEach(outra => {
+                if (outra !== this) outra.checked = false;
+            });
+        }
+
+        // 2. Captura todos os elementos que possuem as classes (básicas ou visíveis)
+        const todosIcms = document.querySelectorAll('.icms, .icms_visivel');
+        const todosPis = document.querySelectorAll('.pis, .pis_visivel');
+        const todosCofins = document.querySelectorAll('.cofins, .cofins_visivel');
+
+        // 3. Troca o nome da classe completamente
+        // Trata ICMS
+        todosIcms.forEach(el => {
+            if (this.checked && this.value === 'icms') {
+                el.className = 'icms_visivel'; // Substitui tudo por icms_visivel
+            } else {
+                el.className = 'icms'; // Volta para o nome básico
+            }
+        });
+
+        // Trata PIS
+        todosPis.forEach(el => {
+            if (this.checked && this.value === 'pis') {
+                el.className = 'pis_visivel';
+            } else {
+                el.className = 'pis';
+            }
+        });
+
+        // Trata COFINS
+        todosCofins.forEach(el => {
+            if (this.checked && this.value === 'cofins') {
+                el.className = 'cofins_visivel';
+            } else {
+                el.className = 'cofins';
+            }
+        });
+    });
+});
+
 function lerXML(arquivo) {
     const reader = new FileReader();
 
@@ -83,10 +129,10 @@ function adicionarNaTabela(d) {
         <td>${d.emitente}</td>
         <td>${d.uf}</td>
         <td>R$ ${Number(d.valor).toFixed(2)}</td>
-        <td>R$ ${Number(d.bs_icms).toFixed(2)}</td>
-        <td>R$ ${Number(d.v_icms).toFixed(2)}</td>
-        <td>R$ ${Number(d.v_pis).toFixed(2)}</td>
-        <td>R$ ${Number(d.v_cofins).toFixed(2)}</td>
+        <td class="icms">R$ ${Number(d.bs_icms).toFixed(2)}</td>
+        <td class="icms">R$ ${Number(d.v_icms).toFixed(2)}</td>
+        <td class="pis">R$ ${Number(d.v_pis).toFixed(2)}</td>
+        <td class="cofins">R$ ${Number(d.v_cofins).toFixed(2)}</td>
         <td>R$ ${Number(d.desconto).toFixed(2)}</td>
         <td>R$ ${Number(d.outras).toFixed(2)}</td>
         <td>R$ ${Number(d.frete).toFixed(2)}</td>
