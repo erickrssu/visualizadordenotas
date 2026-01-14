@@ -157,13 +157,29 @@ tr:hover td {
     /* O background no TR funciona quando o collapse é separate */
     background-color: rgb(224, 237, 255);
     box-shadow: 0px 5px 2px 0px rgba(0,0,0,0.1);
+    animation: linear animate-in-and-out;
+	animation-timeline: view();
 }
 .est_visivel:hover td {
-  transform: translateY(-5px); /* Move a linha 20px para a direita */
+  transform: translateY(-5px);
   transition: transform 0.5s ease;
   background-color: rgb(202, 224, 255); /* Opcional: destaque visual */
 }
+@keyframes animate-in-and-out {
+	entry 0%  {
+		opacity: 0; transform: translateY(100%);
+	}
+	entry 100%  {
+		opacity: 1; transform: translateY(0);
+	}
 
+	exit 0% {
+		opacity: 1; transform: translateY(0);
+	}
+	exit 100% {
+		opacity: 0; transform: translateY(-100%);
+	}
+}
 th, td {
     padding: 14px 5px;
     font-size: 0.7vw;
