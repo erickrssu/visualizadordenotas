@@ -27,7 +27,7 @@
         <div class="container">
 
             <section id="importar">
-                
+
                 <div class="fundo">
                     <i class="fa-solid fa-file-import" style="font-size: 62px;"></i>
                     <h2 id="title_xml">Importação de XML</h2>
@@ -40,17 +40,25 @@
                     <input type="file" id="input_xml" accept=".xml" multiple hidden>
                 
                 </div>
-                <div class="log">
-                    <div class="importados"></div>
-                    <div class="cancelados"></div>
-                    <div class="interestadual"></div>
-                    <div class="valores"></div>
-                </div>
+                <div class="arq">
+                    <div class="importados">
+                        <p class="titles">Total arquivos</p>
+                    </div>
+                    <div class="cancelados">
+                        <p class="titles">Arquivos inválidos</p>
+                    </div>
+                    <div class="interestadual">
+                        <p class="titles">Interestaduais</p>
+                    </div>
             </section>
             <header id="exibir_notas">
                 <textarea id="chave"></textarea>
                 <nav id="navbar">
                     <ul id="nav_impostos">
+                        <li class="nav_imposto">
+                            <input type="checkbox" value="inter" class="interestaduais"/>
+                            <label>Interestadual</label>
+                        </li>
                         <li class="nav_imposto">
                             <input type="checkbox" value="icms" class="imposto"/>
                             <label>ICMS</label>

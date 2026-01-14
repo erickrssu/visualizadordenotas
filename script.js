@@ -1,14 +1,60 @@
+let interestadual = 0;
+let invalido = 0;
 const btn_importar = document.getElementById("importar_xml")
 const inputXML = document.getElementById("input_xml")
 
 btn_importar.addEventListener("click",() =>{inputXML.click();});
-inputXML.addEventListener("change",() =>{
+inputXML.addEventListener("change", () => {
     const arquivos = inputXML.files;
-limparTabela();
-    for(const arquivo of arquivos){
-        lerXML(arquivo)
+
+    limparTabela();
+    interestadual = 0;
+    let nNotas = arquivos.length;
+    let lidos = 0;
+
+    for (const arquivo of arquivos) {
+        lerXML(arquivo, () => {
+            lidos++;
+
+            if (lidos === arquivos.length) {
+                addImportados(nNotas);
+                addInterestadual(interestadual);
+                addCancelado(invalido);
+            }
+        });
     }
 });
+function addImportados(nNotas){
+    const divnotas = document.querySelector(".importados");
+
+    const tr = document.createElement("p");
+    tr.innerHTML = `${nNotas}`;
+    tr.classList.add("numNotas");
+    divnotas.querySelector(".numNotas")?.remove();
+    divnotas.appendChild(tr)
+
+}
+function addInterestadual(interestadual){
+    const divnotas = document.querySelector(".interestadual");
+
+    const tr = document.createElement("p");
+    tr.innerHTML = `${interestadual}`;
+    tr.classList.add("numNotas");
+    divnotas.querySelector(".numNotas")?.remove();
+    divnotas.appendChild(tr)
+
+}
+function addCancelado(invalido){
+    const divnotas = document.querySelector(".cancelados");
+
+    const tr = document.createElement("p");
+    tr.innerHTML = `${invalido}`;
+    tr.classList.add("numNotas");
+    divnotas.querySelector(".numNotas")?.remove();
+    divnotas.appendChild(tr)
+    const log = document.querySelector("div.arq")
+    log.className = "log";
+}
 
 const links = document.querySelectorAll('#navbar a');
 
@@ -42,30 +88,43 @@ links.forEach(link => {
         }
     });
 });
+const checkbox = document.querySelector('.interestaduais');
+
+checkbox.addEventListener('change', function () {
+    const fest = document.querySelectorAll('.est, .est_visivel');
+
+    fest.forEach(el => {
+        if (this.checked) {
+            el.classList.remove('est_visivel');
+            el.classList.add('est');
+        } else {
+            el.classList.remove('est');
+            el.classList.add('est_visivel');
+        }
+    });
+});
+
 
 const checkboxes = document.querySelectorAll('.imposto');
 
 checkboxes.forEach(checkbox => {
     checkbox.addEventListener('change', function() {
-        // 1. Seleção Única
+
         if (this.checked) {
             checkboxes.forEach(outra => {
                 if (outra !== this) outra.checked = false;
             });
         }
 
-        // 2. Captura todos os elementos que possuem as classes (básicas ou visíveis)
         const todosIcms = document.querySelectorAll('.icms, .icms_visivel');
         const todosPis = document.querySelectorAll('.pis, .pis_visivel');
         const todosCofins = document.querySelectorAll('.cofins, .cofins_visivel');
 
-        // 3. Troca o nome da classe completamente
-        // Trata ICMS
         todosIcms.forEach(el => {
             if (this.checked && this.value === 'icms') {
-                el.className = 'icms_visivel'; // Substitui tudo por icms_visivel
+                el.className = 'icms_visivel'; 
             } else {
-                el.className = 'icms'; // Volta para o nome básico
+                el.className = 'icms';
             }
         });
 
@@ -78,7 +137,6 @@ checkboxes.forEach(checkbox => {
             }
         });
 
-        // Trata COFINS
         todosCofins.forEach(el => {
             if (this.checked && this.value === 'cofins') {
                 el.className = 'cofins_visivel';
@@ -89,7 +147,7 @@ checkboxes.forEach(checkbox => {
     });
 });
 
-function lerXML(arquivo) {
+function lerXML(arquivo, callback) {
     const reader = new FileReader();
 
     reader.onload = function (e) {
@@ -98,6 +156,8 @@ function lerXML(arquivo) {
         const xmlDoc = parser.parseFromString(xmlTexto, "text/xml");
 
         extrairDados(xmlDoc, arquivo.name);
+
+        if (callback) callback(); // 🔥 avisa que terminou
     };
 
     reader.readAsText(arquivo);
@@ -112,7 +172,6 @@ function extrairDados(xml, nomeArquivo) {
     
     const dados = {
         arquivo: nomeArquivo,
-        // Dados principais
         chave: xml.querySelector("chNFe")?.textContent || "",
         numero: xml.querySelector("nNF")?.textContent || "",
         data: dataTratar,
@@ -127,6 +186,13 @@ function extrairDados(xml, nomeArquivo) {
         outras: xml.querySelector("total > ICMSTot > vOutro")?.textContent || "0",
         frete: xml.querySelector("total > ICMSTot > vFrete")?.textContent || "0"
     };
+    if(dados.uf != "BA" && dados.uf != ""){
+        interestadual++;
+    }
+    if(dados.numero === "" && dados.data === "" && dados.emitente === ""){
+        invalido++;
+    }
+
     const produtos = [];
     xml.querySelectorAll("det").forEach(det =>{
         const produto = {
@@ -154,9 +220,15 @@ function extrairDados(xml, nomeArquivo) {
         };
         produtos.push(produto);
     });
-
+    
     adicionarNaTabela(dados);
     adicionarItens(produtos);
+}
+function qtItens(){
+
+}
+function qtNotas(){
+
 }
 function limparTabela(){
     const tbody = document.querySelector("#tabela_xml tbody");
@@ -169,10 +241,11 @@ function limparTabela(){
     }
 }
 function adicionarItens(produtos){
+    
     const tbody = document.querySelector("#tabela_itens tbody");
 
     produtos.forEach(i => {
-        const tr = document.createElement("tr");
+         tr = document.createElement("tr");
         tr.innerHTML = `
             <td class="arq">${i.arquivo}</td>
             <td>${i.codigo}</td>
@@ -203,10 +276,14 @@ function adicionarItens(produtos){
     });
 }
 function adicionarNaTabela(d) {
+    
     const tbody = document.querySelector("#tabela_xml tbody");
 
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
+    tr = document.createElement("tr");
+    if(d.uf === "BA" || d.uf === ""){
+        tr = document.createElement("tr");
+        tr.className = "est_visivel";
+        tr.innerHTML = `
         <td class="arq">${d.arquivo}</td>
         <td>${d.chave}</td>
         <td>${d.numero}</td>
@@ -222,6 +299,26 @@ function adicionarNaTabela(d) {
         <td>R$ ${Number(d.outras).toFixed(2)}</td>
         <td>R$ ${Number(d.frete).toFixed(2)}</td>
     `;
+    }else{
+        tr = document.createElement("tr");
+        tr.innerHTML = `
+        <td class="arq">${d.arquivo}</td>
+        <td>${d.chave}</td>
+        <td>${d.numero}</td>
+        <td>${d.data}</td>
+        <td>${d.emitente}</td>
+        <td>${d.uf}</td>
+        <td>R$ ${Number(d.valor).toFixed(2)}</td>
+        <td class="icms">R$ ${Number(d.bs_icms).toFixed(2)}</td>
+        <td class="icms">R$ ${Number(d.v_icms).toFixed(2)}</td>
+        <td class="pis">R$ ${Number(d.v_pis).toFixed(2)}</td>
+        <td class="cofins">R$ ${Number(d.v_cofins).toFixed(2)}</td>
+        <td>R$ ${Number(d.desconto).toFixed(2)}</td>
+        <td>R$ ${Number(d.outras).toFixed(2)}</td>
+        <td>R$ ${Number(d.frete).toFixed(2)}</td>
+        `;
+    }
+    
 
     tbody.appendChild(tr);
 }
