@@ -115,7 +115,8 @@ checkboxes.forEach(checkbox => {
                 if (outra !== this) outra.checked = false;
             });
         }
-
+        const divIBSCBS = document.querySelector('.div_ibs_cbs, .div_ibs_cbs_visivel')
+        const todosIBSCBS = document.querySelectorAll('.ibs_cbs, .ibs_cbs_visivel')
         const todosIcms = document.querySelectorAll('.icms, .icms_visivel');
         const todosPis = document.querySelectorAll('.pis, .pis_visivel');
         const todosCofins = document.querySelectorAll('.cofins, .cofins_visivel');
@@ -127,6 +128,18 @@ checkboxes.forEach(checkbox => {
                 el.className = 'icms';
             }
         });
+        todosIBSCBS.forEach(el => {
+            if (this.checked && this.value === 'ibs_cbs') {
+                el.className = 'ibs_cbs_visivel';
+            } else {
+                el.className = 'ibs_cbs';
+            }
+        });
+        if (this.checked && this.value === 'ibs_cbs') {
+                divIBSCBS.className = 'div_ibs_cbs_visivel';
+            } else {
+                divIBSCBS.className = 'div_ibs_cbs';
+            }
 
         // Trata PIS
         todosPis.forEach(el => {
@@ -180,6 +193,11 @@ function extrairDados(xml, nomeArquivo) {
         valor: xml.querySelector("vNF")?.textContent || "0",
         bs_icms: xml.querySelector("total > ICMSTot > vBC")?.textContent || "0",
         v_icms: xml.querySelector("total > ICMSTot > vICMS")?.textContent || "0",
+        bs_ibs_cbs: xml.querySelector("total > IBSCBSTot > vBCIBSCBS") || "0",
+        v_ibs: xml.querySelector("gIBS > vIBS") || "0",
+        v_ibs_uf: xml.querySelector("gIBSUF > vIBSUF") || "0",
+        v_ibs_m: xml.querySelector("gIBSMUN > vIBSMUN") || "0",
+        v_cbs: xml.querySelector("gCBS > vCBS") || "0",
         v_pis: xml.querySelector("total > ICMSTot > vPIS")?.textContent || "0",
         v_cofins: xml.querySelector("total > ICMSTot > vCOFINS")?.textContent || "0",
         desconto: xml.querySelector("total > ICMSTot > vDesc")?.textContent || "0",
@@ -202,6 +220,18 @@ function extrairDados(xml, nomeArquivo) {
         NCM: det.querySelector("prod > NCM")?.textContent || "",
         vProd: det.querySelector("prod > vProd")?.textContent || "",
         CFOP: det.querySelector("prod > CFOP")?.textContent || "",
+        cst_ibs_cbs: det.querySelector("IBSCBS > CST")?.textContent || "",
+        cct: det.querySelector("IBSCBS > cClassTrib")?.textContent || "",
+
+        bsibscbs: det.querySelector("gIBSCBS > vBC")?.textContent || "",
+        aliqibsuf: det.querySelector("gIBSUF > pIBSUF")?.textContent || "",
+        vibsufuf: det.querySelector("gIBSUF > vIBSUF")?.textContent || "",
+        aliqibsm: det.querySelector("gIBSMun > pIBSMun")?.textContent || "",
+        vibsm: det.querySelector("gIBSMun > vIBSMun")?.textContent || "",
+        vibs: det.querySelector("gIBSCBS > vIBS")?.textContent || "",
+        aliqcbs: det.querySelector("gCBS > pCBS")?.textContent || "",
+        vcbs: det.querySelector("gCBS > vCBS")?.textContent || "",
+
         icmscst: det.querySelector("ICMS CST")?.textContent || "",
         aliqicms: det.querySelector("ICMS pICMS")?.textContent || "",
         bsicms: det.querySelector("ICMS vBC")?.textContent || "",
@@ -254,6 +284,17 @@ function adicionarItens(produtos){
             <td>R$ ${Number(i.vProd).toFixed(2)}</td>
             <td>${i.CFOP}</td>
 
+            <td class="ibs_cbs">${i.cst_ibs_cbs}</td>
+            <td class="ibs_cbs">${i.cct}</td>
+            <td class="ibs_cbs">${Number(i.bsibscbs).toFixed(2)}</td>
+            <td class="ibs_cbs">${Number(i.aliqibsuf).toFixed(2)}</td>
+            <td class="ibs_cbs">${Number(i.vibsufuf).toFixed(2)}</td>
+            <td class="ibs_cbs">${Number(i.aliqibsm).toFixed(2)}</td>
+            <td class="ibs_cbs">${Number(i.vibsm).toFixed(2)}</td>
+            <td class="ibs_cbs">${Number(i.vibs).toFixed(2)}</td>
+            <td class="ibs_cbs">${Number(i.aliqcbs).toFixed(2)}</td>
+            <td class="ibs_cbs">${Number(i.vcbs).toFixed(2)}</td>
+
             <td class="icms">${i.icmscst}</td>
             <td class="icms">${i.aliqicms}</td>
             <td class="icms">R$ ${Number(i.bsicms).toFixed(2)}</td>
@@ -293,6 +334,11 @@ function adicionarNaTabela(d) {
         <td>R$ ${Number(d.valor).toFixed(2)}</td>
         <td class="icms">R$ ${Number(d.bs_icms).toFixed(2)}</td>
         <td class="icms">R$ ${Number(d.v_icms).toFixed(2)}</td>
+        <td class="ibs_cbs">R$ ${Number(d.bs_ibs_cbs).toFixed(2)}</td>
+        <td class="ibs_cbs">R$ ${Number(d.v_ibs).toFixed(2)}</td>
+        <td class="ibs_cbs">R$ ${Number(d.v_ibs_uf).toFixed(2)}</td>
+        <td class="ibs_cbs">R$ ${Number(d.v_ibs_m).toFixed(2)}</td>
+        <td class="ibs_cbs">R$ ${Number(d.v_cbs).toFixed(2)}</td>
         <td class="pis">R$ ${Number(d.v_pis).toFixed(2)}</td>
         <td class="cofins">R$ ${Number(d.v_cofins).toFixed(2)}</td>
         <td>R$ ${Number(d.desconto).toFixed(2)}</td>
@@ -311,6 +357,11 @@ function adicionarNaTabela(d) {
         <td>R$ ${Number(d.valor).toFixed(2)}</td>
         <td class="icms">R$ ${Number(d.bs_icms).toFixed(2)}</td>
         <td class="icms">R$ ${Number(d.v_icms).toFixed(2)}</td>
+        <td class="ibs_cbs">R$ ${Number(d.bs_ibs_cbs).toFixed(2)}</td>
+        <td class="ibs_cbs">R$ ${Number(d.v_ibs).toFixed(2)}</td>
+        <td class="ibs_cbs">R$ ${Number(d.v_ibs_uf).toFixed(2)}</td>
+        <td class="ibs_cbs">R$ ${Number(d.v_ibs_m).toFixed(2)}</td>
+        <td class="ibs_cbs">R$ ${Number(d.v_cbs).toFixed(2)}</td>
         <td class="pis">R$ ${Number(d.v_pis).toFixed(2)}</td>
         <td class="cofins">R$ ${Number(d.v_cofins).toFixed(2)}</td>
         <td>R$ ${Number(d.desconto).toFixed(2)}</td>

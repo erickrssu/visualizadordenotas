@@ -128,7 +128,7 @@ header{
     table-layout: auto;
     border-collapse: separate; 
     border-spacing: 0 10px; 
-    padding: 0 150px;
+    padding: 0 100px;
     
 }
 #tabela_itens {
@@ -165,6 +165,8 @@ tr:hover td {
   transition: transform 0.5s ease;
   background-color: rgb(202, 224, 255); /* Opcional: destaque visual */
 }
+
+
 @keyframes animate-in-and-out {
 	entry 0%  {
 		opacity: 0; transform: translateY(100%);
@@ -229,6 +231,19 @@ td:last-child,th:last-child {
     transform: translateY(-5px);
     background-color: #1565C0;
 }
+ul{
+    list-style: none;
+    gap: 4vw;
+}
+.rt{
+    list-style:none;
+    display: inline-flex;
+}
+.div_ibs_cbs_visivel{
+    display: inline-flex;
+    list-style: none;
+    gap: 4vw;
+}
 
 #navbar{
     margin-left: auto;
@@ -245,6 +260,7 @@ td:last-child,th:last-child {
     transition: all 0.1s ease;
 }
 .nav_imposto{
+    position: relative;
     width: auto;
     color: #FFFFFF;
     align-items: center;
@@ -306,10 +322,13 @@ input[type="checkbox"]:checked {
   background-color: #1E88E5;
   border-color: #1E88E5;
 }
-.pis, .cofins, .icms{
+.div_ibs_cbs{
     display: none;
 }
-.pis _visivel, .cofins _visivel, .icms _visivel{
+.pis, .cofins, .icms, .ibs_cbs{
+    display: none;
+}
+.pis _visivel, .cofins _visivel, .icms _visivel, .ibs_cbs _visivel{
  display: table-cell;
 }
 /* Características do marcador quando selecionado */
