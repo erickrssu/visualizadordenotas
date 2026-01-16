@@ -59,21 +59,20 @@
                             <input type="checkbox" value="inter" class="interestaduais"/>
                             <label>Interestadual</label>
                         </li>
-                        <li class="nav_imposto">
-                            <input type="checkbox" value="ibs_cbs" class="imposto"/>
-                            <label class="popup_ibs_cbs">IBS / CBS</label>
-                        </li>
-
                         <div class="div_ibs_cbs">
                             <li class="nav_imposto">
-                                <input type="checkbox" value="ibs" class="imposto"/>
+                                <input type="checkbox" value="ibs" class="imposto_ibs_cbs"/>
                                 <label>IBS</label>
                             </li>
                             <li class="nav_imposto">
-                                <input type="checkbox" value="cbs" class="imposto"/>
+                                <input type="checkbox" value="cbs" class="imposto_ibs_cbs"/>
                                 <label>CBS</label>
                             </li>
                         </div>
+                        <li class="nav_imposto">
+                            <input type="checkbox" value="ibs_cbs" class="imposto" id="ibscbs"/>
+                            <label class="popup_ibs_cbs">IBS / CBS</label>
+                        </li>
 
                         <li class="nav_imposto">
                             <input type="checkbox" value="icms" class="imposto"/>
@@ -104,10 +103,10 @@
                             <th class="icms">Base ICMS</th>
                             <th class="icms">Valor ICMS</th>
                             <th class="ibs_cbs">Base IBS / CBS</th>
-                            <th class="ibs_cbs">Valor IBS</th>
-                            <th class="ibs_cbs">IBS UF</th>
-                            <th class="ibs_cbs">IBS MUN</th>
-                            <th class="ibs_cbs">Valor CBS</th>
+                            <th class="ibs">Valor IBS</th>
+                            <th class="ibs">IBS UF</th>
+                            <th class="ibs">IBS MUN</th>
+                            <th class="cbs">Valor CBS</th>
                             <th class="pis">Valor PIS</th>
                             <th class="cofins">Valor COFINS</th>
                             <th>Desconto</th>
@@ -131,13 +130,13 @@
                             <th class="ibs_cbs">CST</th>
                             <th class="ibs_cbs">cClassTrib</th>
                             <th class="ibs_cbs">Base IBS / CBS</th>
-                            <th class="ibs_cbs">Aliq IBS UF</th>
-                            <th class="ibs_cbs">IBS UF</th>
-                            <th class="ibs_cbs">Aliq IBS MUN</th>
-                            <th class="ibs_cbs">IBS MUN</th>
-                            <th class="ibs_cbs">Valor IBS</th>
-                            <th class="ibs_cbs">Aliq CBS</th>
-                            <th class="ibs_cbs">Valor CBS</th>
+                            <th class="ibs">Aliq IBS UF</th>
+                            <th class="ibs">IBS UF</th>
+                            <th class="ibs">Aliq IBS MUN</th>
+                            <th class="ibs">IBS MUN</th>
+                            <th class="ibs">Valor IBS</th>
+                            <th class="cbs">Aliq CBS</th>
+                            <th class="cbs">Valor CBS</th>
                             <th class="icms">CST</th>
                             <th class="icms">Aliquota</th>
                             <th class="icms">Base ICMS</th>

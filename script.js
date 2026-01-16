@@ -103,7 +103,38 @@ checkbox.addEventListener('change', function () {
         }
     });
 });
+const checkboxes_ibs_cbs = document.querySelectorAll('.imposto_ibs_cbs');
 
+checkboxes_ibs_cbs.forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+
+        if (this.checked) {
+            checkboxes_ibs_cbs.forEach(outra => {
+                if (outra !== this) outra.checked = false;
+            });
+        }
+        const ibs = document.querySelectorAll('.ibs, .ibs_visivel');
+        const cbs = document.querySelectorAll('.cbs, .cbs_visivel');
+        
+
+        ibs.forEach(el => {
+            if (this.checked && this.value === 'ibs') {
+                el.className = 'ibs_visivel';
+            } else {
+                el.className = 'ibs';
+            }
+        });
+
+        cbs.forEach(el => {
+            if (this.checked && this.value === 'cbs') {
+                el.className = 'cbs_visivel';
+                
+            } else {
+                el.className = 'cbs';
+            }
+        });
+    });
+});
 
 const checkboxes = document.querySelectorAll('.imposto');
 
@@ -115,8 +146,10 @@ checkboxes.forEach(checkbox => {
                 if (outra !== this) outra.checked = false;
             });
         }
-        const divIBSCBS = document.querySelector('.div_ibs_cbs, .div_ibs_cbs_visivel')
-        const todosIBSCBS = document.querySelectorAll('.ibs_cbs, .ibs_cbs_visivel')
+        const ibs = document.querySelectorAll('.ibs, .ibs_visivel');
+        const cbs = document.querySelectorAll('.cbs, .cbs_visivel');
+        const divIBSCBS = document.querySelector('.div_ibs_cbs, .div_ibs_cbs_visivel');
+        const todosIBSCBS = document.querySelectorAll('.ibs_cbs, .ibs_cbs_visivel');
         const todosIcms = document.querySelectorAll('.icms, .icms_visivel');
         const todosPis = document.querySelectorAll('.pis, .pis_visivel');
         const todosCofins = document.querySelectorAll('.cofins, .cofins_visivel');
@@ -131,10 +164,31 @@ checkboxes.forEach(checkbox => {
         todosIBSCBS.forEach(el => {
             if (this.checked && this.value === 'ibs_cbs') {
                 el.className = 'ibs_cbs_visivel';
+                
             } else {
                 el.className = 'ibs_cbs';
             }
         });
+
+        ibs.forEach(el => {
+            if (this.checked && this.value === 'ibs_cbs') {
+                el.className = 'ibs_visivel';
+                
+            } else {
+                el.className = 'ibs';
+            }
+        });
+
+        cbs.forEach(el => {
+            if (this.checked && this.value === 'ibs_cbs') {
+                el.className = 'cbs_visivel';
+                
+            } else {
+                el.className = 'cbs';
+            }
+        });
+
+
         if (this.checked && this.value === 'ibs_cbs') {
                 divIBSCBS.className = 'div_ibs_cbs_visivel';
             } else {
@@ -287,13 +341,13 @@ function adicionarItens(produtos){
             <td class="ibs_cbs">${i.cst_ibs_cbs}</td>
             <td class="ibs_cbs">${i.cct}</td>
             <td class="ibs_cbs">${Number(i.bsibscbs).toFixed(2)}</td>
-            <td class="ibs_cbs">${Number(i.aliqibsuf).toFixed(2)}</td>
-            <td class="ibs_cbs">${Number(i.vibsufuf).toFixed(2)}</td>
-            <td class="ibs_cbs">${Number(i.aliqibsm).toFixed(2)}</td>
-            <td class="ibs_cbs">${Number(i.vibsm).toFixed(2)}</td>
-            <td class="ibs_cbs">${Number(i.vibs).toFixed(2)}</td>
-            <td class="ibs_cbs">${Number(i.aliqcbs).toFixed(2)}</td>
-            <td class="ibs_cbs">${Number(i.vcbs).toFixed(2)}</td>
+            <td class="ibs">${Number(i.aliqibsuf).toFixed(2)}</td>
+            <td class="ibs">R$ ${Number(i.vibsufuf).toFixed(2)}</td>
+            <td class="ibs">${Number(i.aliqibsm).toFixed(2)}</td>
+            <td class="ibs">R$ ${Number(i.vibsm).toFixed(2)}</td>
+            <td class="ibs">R$ ${Number(i.vibs).toFixed(2)}</td>
+            <td class="cbs">${Number(i.aliqcbs).toFixed(2)}</td>
+            <td class="cbs">R$ ${Number(i.vcbs).toFixed(2)}</td>
 
             <td class="icms">${i.icmscst}</td>
             <td class="icms">${i.aliqicms}</td>
@@ -335,10 +389,10 @@ function adicionarNaTabela(d) {
         <td class="icms">R$ ${Number(d.bs_icms).toFixed(2)}</td>
         <td class="icms">R$ ${Number(d.v_icms).toFixed(2)}</td>
         <td class="ibs_cbs">R$ ${Number(d.bs_ibs_cbs).toFixed(2)}</td>
-        <td class="ibs_cbs">R$ ${Number(d.v_ibs).toFixed(2)}</td>
-        <td class="ibs_cbs">R$ ${Number(d.v_ibs_uf).toFixed(2)}</td>
-        <td class="ibs_cbs">R$ ${Number(d.v_ibs_m).toFixed(2)}</td>
-        <td class="ibs_cbs">R$ ${Number(d.v_cbs).toFixed(2)}</td>
+        <td class="ibs">R$ ${Number(d.v_ibs).toFixed(2)}</td>
+        <td class="ibs">R$ ${Number(d.v_ibs_uf).toFixed(2)}</td>
+        <td class="ibs">R$ ${Number(d.v_ibs_m).toFixed(2)}</td>
+        <td class="cbs">R$ ${Number(d.v_cbs).toFixed(2)}</td>
         <td class="pis">R$ ${Number(d.v_pis).toFixed(2)}</td>
         <td class="cofins">R$ ${Number(d.v_cofins).toFixed(2)}</td>
         <td>R$ ${Number(d.desconto).toFixed(2)}</td>
@@ -358,10 +412,10 @@ function adicionarNaTabela(d) {
         <td class="icms">R$ ${Number(d.bs_icms).toFixed(2)}</td>
         <td class="icms">R$ ${Number(d.v_icms).toFixed(2)}</td>
         <td class="ibs_cbs">R$ ${Number(d.bs_ibs_cbs).toFixed(2)}</td>
-        <td class="ibs_cbs">R$ ${Number(d.v_ibs).toFixed(2)}</td>
-        <td class="ibs_cbs">R$ ${Number(d.v_ibs_uf).toFixed(2)}</td>
-        <td class="ibs_cbs">R$ ${Number(d.v_ibs_m).toFixed(2)}</td>
-        <td class="ibs_cbs">R$ ${Number(d.v_cbs).toFixed(2)}</td>
+        <td class="ibs">R$ ${Number(d.v_ibs).toFixed(2)}</td>
+        <td class="ibs">R$ ${Number(d.v_ibs_uf).toFixed(2)}</td>
+        <td class="ibs">R$ ${Number(d.v_ibs_m).toFixed(2)}</td>
+        <td class="cbs">R$ ${Number(d.v_cbs).toFixed(2)}</td>
         <td class="pis">R$ ${Number(d.v_pis).toFixed(2)}</td>
         <td class="cofins">R$ ${Number(d.v_cofins).toFixed(2)}</td>
         <td>R$ ${Number(d.desconto).toFixed(2)}</td>

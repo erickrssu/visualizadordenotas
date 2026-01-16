@@ -128,7 +128,7 @@ header{
     table-layout: auto;
     border-collapse: separate; 
     border-spacing: 0 10px; 
-    padding: 0 100px;
+    padding: 0 30px;
     
 }
 #tabela_itens {
@@ -136,7 +136,7 @@ header{
     table-layout: auto;
     border-collapse: separate; 
     border-spacing: 0 10px; 
-    padding: 0 150px;
+    padding: 0 30px;
     
 }
 
@@ -239,11 +239,7 @@ ul{
     list-style:none;
     display: inline-flex;
 }
-.div_ibs_cbs_visivel{
-    display: inline-flex;
-    list-style: none;
-    gap: 4vw;
-}
+
 
 #navbar{
     margin-left: auto;
@@ -276,8 +272,25 @@ label{
     border-bottom: 6px solid #FFFFFF;
     border-radius: 3px;
 }
+.div_ibs_cbs {
+    display: inline-flex;
+    list-style: none;
+    gap: 0vw;
+    opacity: 0;
+    visibility: hidden; 
+    transform: translateX(10px); 
+    width: 0;
+    transition: all 0.1s ease;
+}
 
-
+.div_ibs_cbs_visivel {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    display: inline-flex;
+    gap: 4vw;
+    transition: all 0.6s ease;
+}
 #nav_list{
     display: inline-flex;
     list-style: none;
@@ -322,13 +335,11 @@ input[type="checkbox"]:checked {
   background-color: #1E88E5;
   border-color: #1E88E5;
 }
-.div_ibs_cbs{
+
+.pis, .cofins, .icms, .ibs_cbs, .ibs, .cbs{
     display: none;
 }
-.pis, .cofins, .icms, .ibs_cbs{
-    display: none;
-}
-.pis _visivel, .cofins _visivel, .icms _visivel, .ibs_cbs _visivel{
+.pis _visivel, .cofins _visivel, .icms _visivel, .ibs_cbs _visivel, .ibs _visivel, .cbs _visivel{
  display: table-cell;
 }
 /* Características do marcador quando selecionado */
