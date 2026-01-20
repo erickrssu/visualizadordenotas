@@ -153,6 +153,7 @@ checkboxes.forEach(checkbox => {
         const todosIcms = document.querySelectorAll('.icms, .icms_visivel');
         const todosPis = document.querySelectorAll('.pis, .pis_visivel');
         const todosCofins = document.querySelectorAll('.cofins, .cofins_visivel');
+        const todosIpi = document.querySelectorAll('.ipi, .ipi_visivel');
 
         todosIcms.forEach(el => {
             if (this.checked && this.value === 'icms') {
@@ -211,6 +212,13 @@ checkboxes.forEach(checkbox => {
                 el.className = 'cofins';
             }
         });
+        todosIpi.forEach(el => {
+            if (this.checked && this.value === 'ipi') {
+                el.className = 'ipi_visivel';
+            } else {
+                el.className = 'ipi';
+            }
+        });
     });
 });
 
@@ -247,6 +255,7 @@ function extrairDados(xml, nomeArquivo) {
         valor: xml.querySelector("vNF")?.textContent || "0",
         bs_icms: xml.querySelector("total > ICMSTot > vBC")?.textContent || "0",
         v_icms: xml.querySelector("total > ICMSTot > vICMS")?.textContent || "0",
+        v_ipi: xml.querySelector("total > ICMSTot > vIPI")?.textContent || "0",
         bs_ibs_cbs: xml.querySelector("total > IBSCBSTot > vBCIBSCBS") || "0",
         v_ibs: xml.querySelector("gIBS > vIBS") || "0",
         v_ibs_uf: xml.querySelector("gIBSUF > vIBSUF") || "0",
@@ -290,6 +299,12 @@ function extrairDados(xml, nomeArquivo) {
         aliqicms: det.querySelector("ICMS pICMS")?.textContent || "",
         bsicms: det.querySelector("ICMS vBC")?.textContent || "",
         vicms: det.querySelector("ICMS vICMS")?.textContent || "",
+
+        ipicst: det.querySelector("IPI CST")?.textContent || "",
+        aliqipi: det.querySelector("IPI pIPI")?.textContent || "",
+        bsipi: det.querySelector("IPI vBC")?.textContent || "",
+        vipi: det.querySelector("IPI vIPI")?.textContent || "",
+
         cstpis: det.querySelector("PIS CST")?.textContent || "",
         aliqpis: det.querySelector("PIS pPIS")?.textContent || "",
         bspis: det.querySelector("PIS vBC")?.textContent || "",
@@ -304,15 +319,83 @@ function extrairDados(xml, nomeArquivo) {
         };
         produtos.push(produto);
     });
-    
+    relatorio(produtos);
     adicionarNaTabela(dados);
     adicionarItens(produtos);
+    
 }
-function qtItens(){
+function relatorio(p) {
+    let icmsAgrupado = JSON.parse(sessionStorage.getItem('resumo_icms')) || {};
 
+    p.forEach(i => {
+        // Criamos a chave composta para agrupar
+        const chave = `${i.icmscst}|${i.aliqicms}|${i.CFOP}`;
+
+        // Se a combinação CST/Alíquota/CFOP ainda não existe, inicializamos
+        if (!icmsAgrupado[chave]) {
+            icmsAgrupado[chave] = {
+                cst: i.icmscst || "N/A",
+                aliq: i.aliqicms || "0",
+                cfop: i.CFOP || "N/A",
+                base: 0,
+                valorICMS: 0,
+                valorTotal: 0
+            };
+        }
+
+        icmsAgrupado[chave].base += parseFloat(i.bsicms || 0);
+        icmsAgrupado[chave].valorICMS += parseFloat(i.vicms || 0);
+        
+        const vProd = parseFloat(i.vProd || 0);
+        const desc = parseFloat(i.pdesconto || 0);
+        const outro = parseFloat(i.poutras || 0);
+        const frete = parseFloat(i.pfrete || 0);
+        
+        icmsAgrupado[chave].valorTotal += (vProd - desc + outro + frete);
+    });
+
+    sessionStorage.setItem('resumo_icms', JSON.stringify(icmsAgrupado));
+
+    renderizarTabelaCFOP();
 }
-function qtNotas(){
+function renderizarTabelaCFOP() {
+    const tbody = document.querySelector("#tabela_cfop tbody");
+    const dados = JSON.parse(sessionStorage.getItem('resumo_icms')) || {};
 
+    // Limpa a tabela antes de redesenhar para não duplicar
+    tbody.innerHTML = "";
+
+    // Itera sobre as chaves do objeto agrupado
+    Object.values(dados).forEach(item => {
+        const tr = document.createElement("tr");
+        
+        tr.innerHTML = `
+            <td><strong>${item.cfop}</strong></td>
+            <td class="icms">${item.cst}</td>
+            <td class="icms">${Number(item.aliq).toFixed(2)}%</td>
+            <td>R$ ${item.valorTotal.toFixed(2)}</td>
+            <td class="ibs_cbs">-</td> <td class="ibs_cbs">-</td>
+            <td class="ibs_cbs">-</td>
+            <td class="ibs_cbs">-</td>
+            <td class="ibs_cbs">-</td>
+            <td class="icms">R$ ${item.base.toFixed(2)}</td>
+            <td class="icms">R$ ${item.valorICMS.toFixed(2)}</td>
+            <td class="ipi">-</td>
+            <td class="ipi">-</td>
+            <td class="ipi">-</td>
+            <td class="ipi">-</td>
+            <td class="pis">-</td>
+            <td class="pis">-</td>
+            <td class="pis">-</td>
+            <td class="pis">-</td>
+            <td class="cofins">-</td>
+            <td class="cofins">-</td>
+            <td class="cofins">-</td>
+            <td class="cofins">-</td>
+            
+        `;
+        tbody.appendChild(tr);
+    });
 }
 function limparTabela(){
     const tbody = document.querySelector("#tabela_xml tbody");
@@ -354,6 +437,11 @@ function adicionarItens(produtos){
             <td class="icms">R$ ${Number(i.bsicms).toFixed(2)}</td>
             <td class="icms">R$ ${Number(i.vicms).toFixed(2)}</td>
 
+            <td class="ipi">${i.ipicst}</td>
+            <td class="ipi">${i.aliqipi}</td>
+            <td class="ipi">R$ ${Number(i.bsipi).toFixed(2)}</td>
+            <td class="ipi">R$ ${Number(i.vipi).toFixed(2)}</td>
+
             <td class="pis">${i.cstpis}</td>
             <td class="pis">${i.aliqpis}</td>
             <td class="pis">R$ ${Number(i.bspis).toFixed(2)}</td>
@@ -388,6 +476,7 @@ function adicionarNaTabela(d) {
         <td>R$ ${Number(d.valor).toFixed(2)}</td>
         <td class="icms">R$ ${Number(d.bs_icms).toFixed(2)}</td>
         <td class="icms">R$ ${Number(d.v_icms).toFixed(2)}</td>
+        <td class="ipi">R$ ${Number(d.v_ipi).toFixed(2)}</td>
         <td class="ibs_cbs">R$ ${Number(d.bs_ibs_cbs).toFixed(2)}</td>
         <td class="ibs">R$ ${Number(d.v_ibs).toFixed(2)}</td>
         <td class="ibs">R$ ${Number(d.v_ibs_uf).toFixed(2)}</td>
@@ -411,6 +500,7 @@ function adicionarNaTabela(d) {
         <td>R$ ${Number(d.valor).toFixed(2)}</td>
         <td class="icms">R$ ${Number(d.bs_icms).toFixed(2)}</td>
         <td class="icms">R$ ${Number(d.v_icms).toFixed(2)}</td>
+        <td class="ipi">R$ ${Number(d.v_ipi).toFixed(2)}</td>
         <td class="ibs_cbs">R$ ${Number(d.bs_ibs_cbs).toFixed(2)}</td>
         <td class="ibs">R$ ${Number(d.v_ibs).toFixed(2)}</td>
         <td class="ibs">R$ ${Number(d.v_ibs_uf).toFixed(2)}</td>

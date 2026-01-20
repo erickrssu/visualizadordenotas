@@ -24,35 +24,94 @@
         </nav>
     </header>
     <main id="content">
-        <div class="container">
-
+        <div class="container">      
             <section id="importar">
-
-                <div class="fundo">
-                    <i class="fa-solid fa-file-import" style="font-size: 62px;"></i>
-                    <h2 id="title_xml">Importação de XML</h2>
-                    <button id="importar_xml">
+                <div class="info">
+                    <div class="fundo">
+                        <i class="fa-solid fa-file-import" style="font-size: 62px;"></i>
+                        <h2 id="title_xml">Importação de XML</h2>
+                        <button id="importar_xml">
                         <span style="
                         font-size: 30px;
                         color: white;">+</span>Importar</button>
-                    </button>
 
-                    <input type="file" id="input_xml" accept=".xml" multiple hidden>
-                
+                        <input type="file" id="input_xml" accept=".xml" multiple hidden>
+                    </div>
+
+                    <div class="arq">
+                        <div class="importados">
+                            <p class="titles">Total arquivos</p>
+                        </div>
+                        <div class="cancelados">
+                            <p class="titles">Arquivos inválidos</p>
+                        </div>
+                        <div class="interestadual">
+                            <p class="titles">Interestaduais</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="arq">
-                    <div class="importados">
-                        <p class="titles">Total arquivos</p>
+                <div class="todos_valores">
+                    <div class="valores">
+                        <div class="vtot">
+                            <p id="vnf">Valor Total:</p>
+                        </div>
+                        <div class="vtot">
+                            <p id="vinter">Valor Interestadual:</p>
+                        </div>
+                        <button id="exportar">Exportar</button>
+                    </div> 
+                    <div class="vimpostos">
+                        <div class="vtot" style="border-left: 3px solid #2563EB">
+                            <p id="vicms">ICMS:</p>
+                        </div>
+                        <div class="vtot" style="border-left: 3px solid #7C3AED">
+                            <p id="vipi">IPI:</p>
+                        </div>
+                        <div class="vtot" style="border-left: 3px solid #059669">
+                            <p id="vibscbs">IBS / CBS:</p>
+                        </div>
+                        <div class="vtot" style="border-left: 3px solid #D97706">
+                            <p id="vpis">PIS:</p>
+                        </div>
+                        <div class="vtot" style="border-left: 3px solid #D97706">
+                            <p id="vcofins">COFINS:</p>
+                        </div>
                     </div>
-                    <div class="cancelados">
-                        <p class="titles">Arquivos inválidos</p>
+                    <div class="relatorio_cfop">
+                        <table id="tabela_cfop">
+                            <thead>
+                                <tr>
+                                    <th>CFOP</th>
+                                    <th class="icms">CST</th>
+                                    <th class="icms">Aliquota</th>
+                                    <th class="ibs_cbs">CST</th>
+                                    <th class="ibs_cbs">cClassTrib</th>
+                                    <th class="ibs_cbs">Aliq IBS / CBS</th>
+                                    <th class="ipi">CST</th>
+                                    <th class="ipi">Aliquota</th>
+                                    <th class="pis">CST</th>
+                                    <th class="pis">Aliquota</th>
+                                    <th class="cofins">CST</th>
+                                    <th class="cofins">Aliquota</th>
+                                    <th>Valor</th>
+                                    <th class="ibs_cbs">Base IBS / CBS</th>
+                                    <th class="ibs_cbs">Valor IBS / CBS</th>
+                                    <th class="icms">Base ICMS</th>
+                                    <th class="icms">Valor ICMS</th>
+                                    <th class="ipi">Base IPI</th>
+                                    <th class="ipi">Valor IPI</th>
+                                    <th class="pis">Base PIS</th>
+                                    <th class="pis">Valor PIS</th>
+                                    <th class="cofins">Base COFINS</th>
+                                    <th class="cofins">Valor COFINS</th>
+                                </tr>
+                            </thead>
+                    <tbody></tbody>
+                </table>
                     </div>
-                    <div class="interestadual">
-                        <p class="titles">Interestaduais</p>
-                    </div>
+                </div>    
             </section>
             <header id="exibir_notas">
-                <textarea id="chave"></textarea>
                 <nav id="navbar">
                     <ul id="nav_impostos">
                         <li class="nav_imposto">
@@ -79,6 +138,10 @@
                             <label>ICMS</label>
                         </li>
                         <li class="nav_imposto">
+                            <input type="checkbox" value="ipi" class="imposto"/>
+                            <label>IPI</label>
+                        </li>
+                        <li class="nav_imposto">
                             <input type="checkbox" value="pis" class="imposto"/>
                             <label>PIS</label>
                         </li>
@@ -102,6 +165,7 @@
                             <th>Valor</th>
                             <th class="icms">Base ICMS</th>
                             <th class="icms">Valor ICMS</th>
+                            <th class="ipi">Valor IPI</th>
                             <th class="ibs_cbs">Base IBS / CBS</th>
                             <th class="ibs">Valor IBS</th>
                             <th class="ibs">IBS UF</th>
@@ -141,6 +205,10 @@
                             <th class="icms">Aliquota</th>
                             <th class="icms">Base ICMS</th>
                             <th class="icms">Valor ICMS</th>
+                            <th class="ipi">CST</th>
+                            <th class="ipi">Aliquota</th>
+                            <th class="ipi">Base IPI</th>
+                            <th class="ipi">Valor IPI</th>
                             <th class="pis">CST</th>
                             <th class="pis">Aliquota</th>
                             <th class="pis">Base PIS</th>
