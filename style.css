@@ -197,7 +197,8 @@ tr:hover td {
 }
 .relatorio_cfop{
     background-color: var(--white);
-    padding: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
     border-radius: 10px;
     border: 1px solid var(--border-color);
     box-shadow: var(--shadow-sm);

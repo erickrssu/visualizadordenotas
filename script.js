@@ -1,3 +1,61 @@
+const btn_exportar = document.getElementById("exportar");
+btn_exportar.addEventListener("click",() =>{exportarTabelaParaExcel();
+    exportarTabelaItens();
+});
+
+function exportarTabelaParaExcel() {
+    let tabela = document.getElementById('tabela_xml');
+    let csvData = [];
+
+    tabela.querySelectorAll('tr').forEach(row => {
+        let rowData = [];
+        row.querySelectorAll('th, td').forEach(cell => {
+            rowData.push(cell.innerText.trim());
+        });
+        csvData.push(rowData.join(';')); 
+    });
+
+    const bom = '\uFEFF';
+    const csvString = bom + csvData.join('\n');
+
+    const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'dados_tabela.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    
+}
+function exportarTabelaItens() {
+    let tabela = document.getElementById('tabela_itens');
+    let csvData = [];
+
+    tabela.querySelectorAll('tr').forEach(row => {
+        let rowData = [];
+        row.querySelectorAll('th, td').forEach(cell => {
+            rowData.push(cell.innerText.trim());
+        });
+        csvData.push(rowData.join(';')); 
+    });
+
+    const bom = '\uFEFF';
+    const csvString = bom + csvData.join('\n');
+
+    const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'dados_tabela.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    
+}
+
 
 const btn_importar = document.getElementById("importar_xml")
 const inputXML = document.getElementById("input_xml")
@@ -294,7 +352,7 @@ function extrairDados(xml, nomeArquivo) {
         bs_icms: xml.querySelector("total > ICMSTot > vBC")?.textContent || "0",
         v_icms: xml.querySelector("total > ICMSTot > vICMS")?.textContent || "0",
         v_ipi: xml.querySelector("total > ICMSTot > vIPI")?.textContent || "0",
-        bs_ibs_cbs: xml.querySelector("total > IBSCBSTot > vBCIBSCBS") || "0",
+        bs_ibs_cbs: xml.querySelector("total > IBSCBSTot > vBCIBSCBS")?.textContent || "0",
         v_ibs: xml.querySelector("gIBS > vIBS")?.textContent || "0",
         v_ibs_uf: xml.querySelector("gIBSUF > vIBSUF")?.textContent || "0",
         v_ibs_m: xml.querySelector("gIBSMUN > vIBSMUN")?.textContent || "0",
@@ -538,42 +596,42 @@ function adicionarItens(produtos){
             <td>${i.codigo}</td>
             <td>${i.descricao}</td>
             <td>${i.NCM}</td>
-            <td>R$ ${Number(i.vProd).toFixed(2)}</td>
+            <td>R$ ${Number(i.vProd).toFixed(2).replace(".", ",")}</td>
             <td>${i.CFOP}</td>
 
             <td class="ibs_cbs">${i.cst_ibs_cbs}</td>
             <td class="ibs_cbs">${i.cct}</td>
-            <td class="ibs_cbs">${Number(i.bsibscbs).toFixed(2)}</td>
-            <td class="ibs">${Number(i.aliqibsuf).toFixed(2)}</td>
-            <td class="ibs">R$ ${Number(i.vibsufuf).toFixed(2)}</td>
-            <td class="ibs">${Number(i.aliqibsm).toFixed(2)}</td>
-            <td class="ibs">R$ ${Number(i.vibsm).toFixed(2)}</td>
-            <td class="ibs">R$ ${Number(i.vibs).toFixed(2)}</td>
-            <td class="cbs">${Number(i.aliqcbs).toFixed(2)}</td>
-            <td class="cbs">R$ ${Number(i.vcbs).toFixed(2)}</td>
+            <td class="ibs_cbs">R$ ${Number(i.bsibscbs).toFixed(2).replace(".", ",")}</td>
+            <td class="ibs">${Number(i.aliqibsuf).toFixed(2).replace(".", ",")}</td>
+            <td class="ibs">R$ ${Number(i.vibsufuf).toFixed(2).replace(".", ",")}</td>
+            <td class="ibs">${Number(i.aliqibsm).toFixed(2).replace(".", ",")}</td>
+            <td class="ibs">R$ ${Number(i.vibsm).toFixed(2).replace(".", ",")}</td>
+            <td class="ibs">R$ ${Number(i.vibs).toFixed(2).replace(".", ",")}</td>
+            <td class="cbs">${Number(i.aliqcbs).toFixed(2).replace(".", ",")}</td>
+            <td class="cbs">R$ ${Number(i.vcbs).toFixed(2).replace(".", ",")}</td>
 
             <td class="icms">${i.icmsorig}${i.icmscst}</td>
-            <td class="icms">${i.aliqicms}</td>
-            <td class="icms">R$ ${Number(i.bsicms).toFixed(2)}</td>
-            <td class="icms">R$ ${Number(i.vicms).toFixed(2)}</td>
+            <td class="icms">${Number(i.aliqicms).toFixed(2).replace(".", ",")}</td>
+            <td class="icms">R$ ${Number(i.bsicms).toFixed(2).replace(".", ",")}</td>
+            <td class="icms">R$ ${Number(i.vicms).toFixed(2).replace(".", ",")}</td>
 
             <td class="ipi">${i.ipicst}</td>
-            <td class="ipi">${i.aliqipi}</td>
-            <td class="ipi">R$ ${Number(i.bsipi).toFixed(2)}</td>
-            <td class="ipi">R$ ${Number(i.vipi).toFixed(2)}</td>
+            <td class="ipi">${Number(i.aliqipi).toFixed(2).replace(".", ",")}</td>
+            <td class="ipi">R$ ${Number(i.bsipi).toFixed(2).replace(".", ",")}</td>
+            <td class="ipi">R$ ${Number(i.vipi).toFixed(2).replace(".", ",")}</td>
 
             <td class="pis">${i.cstpis}</td>
-            <td class="pis">${i.aliqpis}</td>
-            <td class="pis">R$ ${Number(i.bspis).toFixed(2)}</td>
-            <td class="pis">R$ ${Number(i.vpis).toFixed(2)}</td>
+            <td class="pis">${Number(i.aliqpis).toFixed(2).replace(".", ",")}</td>
+            <td class="pis">R$ ${Number(i.bspis).toFixed(2).replace(".", ",")}</td>
+            <td class="pis">R$ ${Number(i.vpis).toFixed(2).replace(".", ",")}</td>
 
             <td class="cofins">${i.cstcofins}</td>
-            <td class="cofins">${i.aliqcofins}</td>
-            <td class="cofins">R$ ${Number(i.bscofins).toFixed(2)}</td>
-            <td class="cofins">R$ ${Number(i.vcofins).toFixed(2)}</td>
+            <td class="cofins">${Number(i.aliqcofins).toFixed(2).replace(".", ",")}</td>
+            <td class="cofins">R$ ${Number(i.bscofins).toFixed(2).replace(".", ",")}</td>
+            <td class="cofins">R$ ${Number(i.vcofins).toFixed(2).replace(".", ",")}</td>
 
-            <td>R$ ${Number(i.pdesconto).toFixed(2)}</td>
-            <td>R$ ${Number(i.poutras).toFixed(2)}</td>
+            <td>R$ ${Number(i.pdesconto).toFixed(2).replace(".", ",")}</td>
+            <td>R$ ${Number(i.poutras).toFixed(2).replace(".", ",")}</td>
         `;
         tbody.appendChild(tr);
     });
@@ -601,20 +659,20 @@ function adicionarNaTabela(d) {
         <td>${d.data}</td>
         <td>${d.emitente}</td>
         <td>${d.uf}</td>
-        <td>R$ ${Number(d.valor).toFixed(2)}</td>
-        <td class="icms">R$ ${Number(d.bs_icms).toFixed(2)}</td>
-        <td class="icms">R$ ${Number(d.v_icms).toFixed(2)}</td>
-        <td class="ipi">R$ ${Number(d.v_ipi).toFixed(2)}</td>
-        <td class="ibs_cbs">R$ ${Number(d.bs_ibs_cbs).toFixed(2)}</td>
-        <td class="ibs">R$ ${Number(d.v_ibs).toFixed(2)}</td>
-        <td class="ibs">R$ ${Number(d.v_ibs_uf).toFixed(2)}</td>
-        <td class="ibs">R$ ${Number(d.v_ibs_m).toFixed(2)}</td>
-        <td class="cbs">R$ ${Number(d.v_cbs).toFixed(2)}</td>
-        <td class="pis">R$ ${Number(d.v_pis).toFixed(2)}</td>
-        <td class="cofins">R$ ${Number(d.v_cofins).toFixed(2)}</td>
-        <td>R$ ${Number(d.desconto).toFixed(2)}</td>
-        <td>R$ ${Number(d.outras).toFixed(2)}</td>
-        <td>R$ ${Number(d.frete).toFixed(2)}</td>
+        <td>R$ ${Number(d.valor).toFixed(2).replace(".", ",")}</td>
+        <td class="icms">R$ ${Number(d.bs_icms).toFixed(2).replace(".", ",")}</td>
+        <td class="icms">R$ ${Number(d.v_icms).toFixed(2).replace(".", ",")}</td>
+        <td class="ipi">R$ ${Number(d.v_ipi).toFixed(2).replace(".", ",")}</td>
+        <td class="ibs_cbs">R$ ${Number(d.bs_ibs_cbs).toFixed(2).replace(".", ",")}</td>
+        <td class="ibs">R$ ${Number(d.v_ibs).toFixed(2).replace(".", ",")}</td>
+        <td class="ibs">R$ ${Number(d.v_ibs_uf).toFixed(2).replace(".", ",")}</td>
+        <td class="ibs">R$ ${Number(d.v_ibs_m).toFixed(2).replace(".", ",")}</td>
+        <td class="cbs">R$ ${Number(d.v_cbs).toFixed(2).replace(".", ",")}</td>
+        <td class="pis">R$ ${Number(d.v_pis).toFixed(2).replace(".", ",")}</td>
+        <td class="cofins">R$ ${Number(d.v_cofins).toFixed(2).replace(".", ",")}</td>
+        <td>R$ ${Number(d.desconto).toFixed(2).replace(".", ",")}</td>
+        <td>R$ ${Number(d.outras).toFixed(2).replace(".", ",")}</td>
+        <td>R$ ${Number(d.frete).toFixed(2).replace(".", ",")}</td>
     `;
     }else{
         valorInter = valorInter + parseFloat(d.valor)
@@ -626,20 +684,20 @@ function adicionarNaTabela(d) {
         <td>${d.data}</td>
         <td>${d.emitente}</td>
         <td>${d.uf}</td>
-        <td>R$ ${Number(d.valor).toFixed(2)}</td>
-        <td class="icms">R$ ${Number(d.bs_icms).toFixed(2)}</td>
-        <td class="icms">R$ ${Number(d.v_icms).toFixed(2)}</td>
-        <td class="ipi">R$ ${Number(d.v_ipi).toFixed(2)}</td>
-        <td class="ibs_cbs">R$ ${Number(d.bs_ibs_cbs).toFixed(2)}</td>
-        <td class="ibs">R$ ${Number(d.v_ibs).toFixed(2)}</td>
-        <td class="ibs">R$ ${Number(d.v_ibs_uf).toFixed(2)}</td>
-        <td class="ibs">R$ ${Number(d.v_ibs_m).toFixed(2)}</td>
-        <td class="cbs">R$ ${Number(d.v_cbs).toFixed(2)}</td>
-        <td class="pis">R$ ${Number(d.v_pis).toFixed(2)}</td>
-        <td class="cofins">R$ ${Number(d.v_cofins).toFixed(2)}</td>
-        <td>R$ ${Number(d.desconto).toFixed(2)}</td>
-        <td>R$ ${Number(d.outras).toFixed(2)}</td>
-        <td>R$ ${Number(d.frete).toFixed(2)}</td>
+        <td>R$ ${Number(d.valor).toFixed(2).replace(".", ",")}</td>
+        <td class="icms">R$ ${Number(d.bs_icms).toFixed(2).replace(".", ",")}</td>
+        <td class="icms">R$ ${Number(d.v_icms).toFixed(2).replace(".", ",")}</td>
+        <td class="ipi">R$ ${Number(d.v_ipi).toFixed(2).replace(".", ",")}</td>
+        <td class="ibs_cbs">R$ ${Number(d.bs_ibs_cbs).toFixed(2).replace(".", ",")}</td>
+        <td class="ibs">R$ ${Number(d.v_ibs).toFixed(2).replace(".", ",")}</td>
+        <td class="ibs">R$ ${Number(d.v_ibs_uf).toFixed(2).replace(".", ",")}</td>
+        <td class="ibs">R$ ${Number(d.v_ibs_m).toFixed(2).replace(".", ",")}</td>
+        <td class="cbs">R$ ${Number(d.v_cbs).toFixed(2).replace(".", ",")}</td>
+        <td class="pis">R$ ${Number(d.v_pis).toFixed(2).replace(".", ",")}</td>
+        <td class="cofins">R$ ${Number(d.v_cofins).toFixed(2).replace(".", ",")}</td>
+        <td>R$ ${Number(d.desconto).toFixed(2).replace(".", ",")}</td>
+        <td>R$ ${Number(d.outras).toFixed(2).replace(".", ",")}</td>
+        <td>R$ ${Number(d.frete).toFixed(2)}.replace(".", ",")</td>
         `;
     }
     tbody.appendChild(tr);
