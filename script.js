@@ -1,14 +1,31 @@
-let interestadual = 0;
-let invalido = 0;
+
 const btn_importar = document.getElementById("importar_xml")
 const inputXML = document.getElementById("input_xml")
 
+let interestadual = 0;
+let invalido = 0;
+let valorNF = 0;
+let valorInter = 0;
+let icmsTotal = 0;
+let ipiTotal = 0;
+let ibscbsTotal = 0;
+let pisTotal = 0;
+let cofinsTotal = 0;
 btn_importar.addEventListener("click",() =>{inputXML.click();});
 inputXML.addEventListener("change", () => {
     const arquivos = inputXML.files;
 
     limparTabela();
     interestadual = 0;
+     invalido = 0;
+     valorNF = 0;
+     valorInter = 0;
+     icmsTotal = 0;
+     ipiTotal = 0;
+     ibscbsTotal = 0;
+     pisTotal = 0;
+     cofinsTotal = 0;
+    
     let nNotas = arquivos.length;
     let lidos = 0;
 
@@ -20,10 +37,28 @@ inputXML.addEventListener("change", () => {
                 addImportados(nNotas);
                 addInterestadual(interestadual);
                 addCancelado(invalido);
+                adicionarValores(valorNF, valorInter, icmsTotal, ipiTotal, ibscbsTotal, pisTotal, cofinsTotal);
             }
         });
     }
+    sessionStorage.clear();
 });
+function adicionarValores(valorNF, valorInter, icmsTotal, ipiTotal, ibscbsTotal, pisTotal, cofinsTotal){
+    let elemento = document.getElementById("vnf");
+    elemento.textContent = "Valor Total:" + " R$ " + Number(valorNF).toFixed(2);
+    elemento = document.getElementById("vinter");
+    elemento.textContent = "Valor Interestadual:" + " R$ " + Number(valorInter).toFixed(2);
+    elemento = document.getElementById("vicms");
+    elemento.textContent = "ICMS:" + " R$ " + Number(icmsTotal).toFixed(2);
+    elemento = document.getElementById("vipi");
+    elemento.textContent = "IPI:" + " R$ " + Number(ipiTotal).toFixed(2);
+    elemento = document.getElementById("vibscbs");
+    elemento.textContent = "IBS / CBS:" + " R$ " + Number(ibscbsTotal).toFixed(2);
+    elemento = document.getElementById("vpis");
+    elemento.textContent = "PIS:" + " R$ " + Number(pisTotal).toFixed(2);
+    elemento = document.getElementById("vcofins");
+    elemento.textContent = "COFINS:" + " R$ " + Number(cofinsTotal).toFixed(2);
+}
 function addImportados(nNotas){
     const divnotas = document.querySelector(".importados");
 
@@ -53,7 +88,10 @@ function addCancelado(invalido){
     divnotas.querySelector(".numNotas")?.remove();
     divnotas.appendChild(tr)
     const log = document.querySelector("div.arq")
-    log.className = "log";
+    if(log !== null){
+        log.className = "log";
+    }
+    
 }
 
 const links = document.querySelectorAll('#navbar a');
@@ -232,7 +270,7 @@ function lerXML(arquivo, callback) {
 
         extrairDados(xmlDoc, arquivo.name);
 
-        if (callback) callback(); // 🔥 avisa que terminou
+        if (callback) callback();
     };
 
     reader.readAsText(arquivo);
@@ -257,10 +295,10 @@ function extrairDados(xml, nomeArquivo) {
         v_icms: xml.querySelector("total > ICMSTot > vICMS")?.textContent || "0",
         v_ipi: xml.querySelector("total > ICMSTot > vIPI")?.textContent || "0",
         bs_ibs_cbs: xml.querySelector("total > IBSCBSTot > vBCIBSCBS") || "0",
-        v_ibs: xml.querySelector("gIBS > vIBS") || "0",
-        v_ibs_uf: xml.querySelector("gIBSUF > vIBSUF") || "0",
-        v_ibs_m: xml.querySelector("gIBSMUN > vIBSMUN") || "0",
-        v_cbs: xml.querySelector("gCBS > vCBS") || "0",
+        v_ibs: xml.querySelector("gIBS > vIBS")?.textContent || "0",
+        v_ibs_uf: xml.querySelector("gIBSUF > vIBSUF")?.textContent || "0",
+        v_ibs_m: xml.querySelector("gIBSMUN > vIBSMUN")?.textContent || "0",
+        v_cbs: xml.querySelector("gCBS > vCBS")?.textContent || "0",
         v_pis: xml.querySelector("total > ICMSTot > vPIS")?.textContent || "0",
         v_cofins: xml.querySelector("total > ICMSTot > vCOFINS")?.textContent || "0",
         desconto: xml.querySelector("total > ICMSTot > vDesc")?.textContent || "0",
@@ -286,55 +324,77 @@ function extrairDados(xml, nomeArquivo) {
         cst_ibs_cbs: det.querySelector("IBSCBS > CST")?.textContent || "",
         cct: det.querySelector("IBSCBS > cClassTrib")?.textContent || "",
 
-        bsibscbs: det.querySelector("gIBSCBS > vBC")?.textContent || "",
-        aliqibsuf: det.querySelector("gIBSUF > pIBSUF")?.textContent || "",
-        vibsufuf: det.querySelector("gIBSUF > vIBSUF")?.textContent || "",
-        aliqibsm: det.querySelector("gIBSMun > pIBSMun")?.textContent || "",
-        vibsm: det.querySelector("gIBSMun > vIBSMun")?.textContent || "",
-        vibs: det.querySelector("gIBSCBS > vIBS")?.textContent || "",
-        aliqcbs: det.querySelector("gCBS > pCBS")?.textContent || "",
-        vcbs: det.querySelector("gCBS > vCBS")?.textContent || "",
-
+        bsibscbs: det.querySelector("gIBSCBS > vBC")?.textContent || "0",
+        aliqibsuf: det.querySelector("gIBSUF > pIBSUF")?.textContent || "0",
+        vibsufuf: det.querySelector("gIBSUF > vIBSUF")?.textContent || "0",
+        aliqibsm: det.querySelector("gIBSMun > pIBSMun")?.textContent || "0",
+        vibsm: det.querySelector("gIBSMun > vIBSMun")?.textContent || "0",
+        vibs: det.querySelector("gIBSCBS > vIBS")?.textContent || "0",
+        aliqcbs: det.querySelector("gCBS > pCBS")?.textContent || "0",
+        vcbs: det.querySelector("gCBS > vCBS")?.textContent || "0",
+        
+        icmsorig: det.querySelector("ICMS orig")?.textContent || "",
         icmscst: det.querySelector("ICMS CST")?.textContent || "",
-        aliqicms: det.querySelector("ICMS pICMS")?.textContent || "",
-        bsicms: det.querySelector("ICMS vBC")?.textContent || "",
-        vicms: det.querySelector("ICMS vICMS")?.textContent || "",
+        aliqicms: det.querySelector("ICMS pICMS")?.textContent || "0",
+        bsicms: det.querySelector("ICMS vBC")?.textContent || "0",
+        vicms: det.querySelector("ICMS vICMS")?.textContent || "0",
 
         ipicst: det.querySelector("IPI CST")?.textContent || "",
-        aliqipi: det.querySelector("IPI pIPI")?.textContent || "",
-        bsipi: det.querySelector("IPI vBC")?.textContent || "",
-        vipi: det.querySelector("IPI vIPI")?.textContent || "",
+        aliqipi: det.querySelector("IPI pIPI")?.textContent || "0",
+        bsipi: det.querySelector("IPI vBC")?.textContent || "0",
+        vipi: det.querySelector("IPI vIPI")?.textContent || "0",
 
         cstpis: det.querySelector("PIS CST")?.textContent || "",
         aliqpis: det.querySelector("PIS pPIS")?.textContent || "",
-        bspis: det.querySelector("PIS vBC")?.textContent || "",
-        vpis: det.querySelector("PIS vPIS")?.textContent || "",
+        bspis: det.querySelector("PIS vBC")?.textContent || "0",
+        vpis: det.querySelector("PIS vPIS")?.textContent || "0",
         cstcofins: det.querySelector("COFINS CST")?.textContent || "",
-        aliqcofins: det.querySelector("COFINS pCOFINS")?.textContent || "",
-        bscofins: det.querySelector("COFINS vBC")?.textContent || "",
-        vcofins: det.querySelector("COFINS vCOFINS")?.textContent || "",
-        pdesconto: det.querySelector("prod > vDesc")?.textContent || "",
-        poutras: det.querySelector("prod > vOutro")?.textContent || "",
-        pfrete: det.querySelector("prod > vDesc")?.textContent || "",
+        aliqcofins: det.querySelector("COFINS pCOFINS")?.textContent || "0",
+        bscofins: det.querySelector("COFINS vBC")?.textContent || "0",
+        vcofins: det.querySelector("COFINS vCOFINS")?.textContent || "0",
+        pdesconto: det.querySelector("prod > vDesc")?.textContent || "0",
+        poutras: det.querySelector("prod > vOutro")?.textContent || "0",
+        pfrete: det.querySelector("prod > vFrete")?.textContent || "0",
         };
         produtos.push(produto);
     });
     relatorio(produtos);
     adicionarNaTabela(dados);
     adicionarItens(produtos);
+    renderizarTabelaCFOP();
     
 }
 function relatorio(p) {
     let icmsAgrupado = JSON.parse(sessionStorage.getItem('resumo_icms')) || {};
+    let ibscbsAgrupado = JSON.parse(sessionStorage.getItem('resumo_ibscbs')) || {};
+    let pisAgrupado = JSON.parse(sessionStorage.getItem('resumo_pis')) || {};
+    let cofinsAgrupado = JSON.parse(sessionStorage.getItem('resumo_cofins')) ||{};
 
     p.forEach(i => {
-        // Criamos a chave composta para agrupar
-        const chave = `${i.icmscst}|${i.aliqicms}|${i.CFOP}`;
+        let aliqibscbs = parseFloat(i.aliqibsm) + parseFloat(i.aliqibsuf) + parseFloat(i.aliqcbs);
+        const chaveICMS = `${i.icmsorig}${i.icmscst}|${i.aliqicms}|${i.CFOP}`;
+        const chaveIBSCBS = `${i.cst_ibs_cbs}|${aliqibscbs}|${i.cct}|${i.CFOP}`;
+        const chavePIS = `${i.cstpis}|${i.aliqpis}|${i.CFOP}`;
+        const chaveCOFINS = `${i.cstcofins}|${i.aliqcofins}|${i.CFOP}`;
+        
+        if(!ibscbsAgrupado[chaveIBSCBS]){
+            ibscbsAgrupado[chaveIBSCBS] = {
+                cst: i.cst_ibs_cbs || "N/A",
+                aliq: aliqibscbs || "0",
+                cfop: i.CFOP || "N/A",
+                cct: i.cct || "N/A",
+                base: 0,
+                valorIBSCBS: 0,
+                valorTotal: 0
+            };
+        }
+        valorIC = parseFloat(i.vibs) + parseFloat(i.vcbs);
+        ibscbsAgrupado[chaveIBSCBS].base += parseFloat(i.bsibscbs || 0);
+        ibscbsAgrupado[chaveIBSCBS].valorIBSCBS += parseFloat(valorIC || 0);
 
-        // Se a combinação CST/Alíquota/CFOP ainda não existe, inicializamos
-        if (!icmsAgrupado[chave]) {
-            icmsAgrupado[chave] = {
-                cst: i.icmscst || "N/A",
+        if (!icmsAgrupado[chaveICMS]) {
+            icmsAgrupado[chaveICMS] = {
+                cst: i.icmsorig + i.icmscst || "N/A",
                 aliq: i.aliqicms || "0",
                 cfop: i.CFOP || "N/A",
                 base: 0,
@@ -343,56 +403,116 @@ function relatorio(p) {
             };
         }
 
-        icmsAgrupado[chave].base += parseFloat(i.bsicms || 0);
-        icmsAgrupado[chave].valorICMS += parseFloat(i.vicms || 0);
+        icmsAgrupado[chaveICMS].base += parseFloat(i.bsicms || 0);
+        icmsAgrupado[chaveICMS].valorICMS += parseFloat(i.vicms || 0);
+
+        if (!pisAgrupado[chavePIS]) {
+            pisAgrupado[chavePIS] = {
+                cst: i.cstpis || "N/A",
+                aliq: i.aliqpis || "0",
+                cfop: i.CFOP || "N/A",
+                base: 0,
+                valorPIS: 0,
+                valorTotal: 0
+            };
+        }
+
+        pisAgrupado[chavePIS].base += parseFloat(i.bspis || 0);
+        pisAgrupado[chavePIS].valorICMS += parseFloat(i.vpis || 0);
         
+        if (!cofinsAgrupado[chaveCOFINS]) {
+            cofinsAgrupado[chaveCOFINS] = {
+                cst: i.cstcofins || "N/A",
+                aliq: i.aliqcofins || "0",
+                cfop: i.CFOP || "N/A",
+                base: 0,
+                valorCOFINS: 0,
+                valorTotal: 0
+            };
+        }
+
+        cofinsAgrupado[chaveCOFINS].base += parseFloat(i.bscofins || 0);
+        cofinsAgrupado[chaveCOFINS].valorCOFINS += parseFloat(i.vcofins || 0);
+
         const vProd = parseFloat(i.vProd || 0);
         const desc = parseFloat(i.pdesconto || 0);
         const outro = parseFloat(i.poutras || 0);
         const frete = parseFloat(i.pfrete || 0);
         
-        icmsAgrupado[chave].valorTotal += (vProd - desc + outro + frete);
+        icmsAgrupado[chaveICMS].valorTotal += (vProd - desc + outro + frete);
+        ibscbsAgrupado[chaveIBSCBS].valorTotal += (vProd - desc + outro + frete);
+        pisAgrupado[chavePIS].valorTotal += (vProd - desc + outro + frete);
+        cofinsAgrupado[chaveCOFINS].valorTotal += (vProd - desc + outro + frete);
     });
 
-    sessionStorage.setItem('resumo_icms', JSON.stringify(icmsAgrupado));
-
-    renderizarTabelaCFOP();
+    sessionStorage.setItem('resumo_icms', JSON.stringify(icmsAgrupado));    
+    sessionStorage.setItem('resumo_ibscbs', JSON.stringify(ibscbsAgrupado));
+    sessionStorage.setItem('resumo_pis', JSON.stringify(pisAgrupado));
+    sessionStorage.setItem('resumo_cofins', JSON.stringify(cofinsAgrupado));
 }
 function renderizarTabelaCFOP() {
     const tbody = document.querySelector("#tabela_cfop tbody");
-    const dados = JSON.parse(sessionStorage.getItem('resumo_icms')) || {};
+    const dadosICMS = JSON.parse(sessionStorage.getItem('resumo_icms')) || {};
+    const dadosIC = JSON.parse(sessionStorage.getItem('resumo_ibscbs')) || {};
+    const dadosPIS = JSON.parse(sessionStorage.getItem('resumo_pis')) || {};
+    const dadosCOFINS = JSON.parse(sessionStorage.getItem('resumo_cofins')) || {};
 
-    // Limpa a tabela antes de redesenhar para não duplicar
     tbody.innerHTML = "";
 
-    // Itera sobre as chaves do objeto agrupado
-    Object.values(dados).forEach(item => {
+    Object.values(dadosICMS).forEach(item => {
         const tr = document.createElement("tr");
+        tr.className = "icms"
         
         tr.innerHTML = `
             <td><strong>${item.cfop}</strong></td>
-            <td class="icms">${item.cst}</td>
-            <td class="icms">${Number(item.aliq).toFixed(2)}%</td>
+            <td>${item.cst}</td>
+            <td>${Number(item.aliq).toFixed(2)}%</td>
             <td>R$ ${item.valorTotal.toFixed(2)}</td>
-            <td class="ibs_cbs">-</td> <td class="ibs_cbs">-</td>
-            <td class="ibs_cbs">-</td>
-            <td class="ibs_cbs">-</td>
-            <td class="ibs_cbs">-</td>
-            <td class="icms">R$ ${item.base.toFixed(2)}</td>
-            <td class="icms">R$ ${item.valorICMS.toFixed(2)}</td>
-            <td class="ipi">-</td>
-            <td class="ipi">-</td>
-            <td class="ipi">-</td>
-            <td class="ipi">-</td>
-            <td class="pis">-</td>
-            <td class="pis">-</td>
-            <td class="pis">-</td>
-            <td class="pis">-</td>
-            <td class="cofins">-</td>
-            <td class="cofins">-</td>
-            <td class="cofins">-</td>
-            <td class="cofins">-</td>
-            
+            <td>R$ ${item.base.toFixed(2)}</td>
+            <td>R$ ${item.valorICMS.toFixed(2)}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+    Object.values(dadosIC).forEach(item => {
+        const tr = document.createElement("tr");
+        tr.className = "ibs_cbs"
+
+        tr.innerHTML = `
+            <td><strong>${item.cfop}</strong></td>
+            <td>${item.cst}</td>
+            <td>${item.cct}</td>
+            <td>${Number(item.aliq).toFixed(2)}%</td>
+            <td>R$ ${item.valorTotal.toFixed(2)}</td>
+            <td>R$ ${item.base.toFixed(2)}</td>
+            <td>R$ ${item.valorIBSCBS.toFixed(2)}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+    Object.values(dadosPIS).forEach(item => {
+        const tr = document.createElement("tr");
+        tr.className = "pis"
+
+        tr.innerHTML = `
+            <td><strong>${item.cfop}</strong></td>
+            <td>${item.cst}</td>
+            <td>${Number(item.aliq).toFixed(2)}%</td>
+            <td>R$ ${item.valorTotal.toFixed(2)}</td>
+            <td>R$ ${item.base.toFixed(2)}</td>
+            <td>R$ ${item.valorPIS.toFixed(2)}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+    Object.values(dadosCOFINS).forEach(item => {
+        const tr = document.createElement("tr");
+        tr.className = "cofins"
+
+        tr.innerHTML = `
+            <td><strong>${item.cfop}</strong></td>
+            <td>${item.cst}</td>
+            <td>${Number(item.aliq).toFixed(2)}%</td>
+            <td>R$ ${item.valorTotal.toFixed(2)}</td>
+            <td>R$ ${item.base.toFixed(2)}</td>
+            <td>R$ ${item.valorCOFINS.toFixed(2)}</td>
         `;
         tbody.appendChild(tr);
     });
@@ -432,7 +552,7 @@ function adicionarItens(produtos){
             <td class="cbs">${Number(i.aliqcbs).toFixed(2)}</td>
             <td class="cbs">R$ ${Number(i.vcbs).toFixed(2)}</td>
 
-            <td class="icms">${i.icmscst}</td>
+            <td class="icms">${i.icmsorig}${i.icmscst}</td>
             <td class="icms">${i.aliqicms}</td>
             <td class="icms">R$ ${Number(i.bsicms).toFixed(2)}</td>
             <td class="icms">R$ ${Number(i.vicms).toFixed(2)}</td>
@@ -459,7 +579,15 @@ function adicionarItens(produtos){
     });
 }
 function adicionarNaTabela(d) {
-    
+    valorNF = valorNF + parseFloat(d.valor || 0);
+    icmsTotal = icmsTotal + parseFloat(d.v_icms || 0);
+    ipiTotal = ipiTotal + parseFloat(d.v_ipi || 0);
+    let ibscbsJuntos = 0;
+    ibscbsJuntos = parseFloat(d.v_ibs || 0) + parseFloat(d.v_cbs || 0)
+    ibscbsTotal = ibscbsTotal + parseFloat(ibscbsJuntos || 0);
+
+    pisTotal = pisTotal + parseFloat(d.v_pis || 0);
+    cofinsTotal = cofinsTotal + parseFloat(d.v_cofins || 0);
     const tbody = document.querySelector("#tabela_xml tbody");
 
     tr = document.createElement("tr");
@@ -489,6 +617,7 @@ function adicionarNaTabela(d) {
         <td>R$ ${Number(d.frete).toFixed(2)}</td>
     `;
     }else{
+        valorInter = valorInter + parseFloat(d.valor)
         tr = document.createElement("tr");
         tr.innerHTML = `
         <td class="arq">${d.arquivo}</td>
@@ -513,8 +642,6 @@ function adicionarNaTabela(d) {
         <td>R$ ${Number(d.frete).toFixed(2)}</td>
         `;
     }
-    
-
     tbody.appendChild(tr);
 }
 
